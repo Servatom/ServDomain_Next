@@ -2,13 +2,13 @@ import { useEffect, useMemo } from "react";
 import { useState } from "react";
 import { IDynamicInputProps } from "../types";
 
-const Input: React.FC<IDynamicInputProps> = ({
+const DynamicInput: React.FC<IDynamicInputProps> = ({
   className,
   placeholder,
   value,
   onSearch,
   enablePlaceholderAnimation = false,
-  size,
+  size = 3,
   ...rest
 }) => {
   const [inputSize, setInputSize] = useState(size || 3);
@@ -63,4 +63,4 @@ const Input: React.FC<IDynamicInputProps> = ({
   );
 };
 
-export default Input;
+export default DynamicInput;
