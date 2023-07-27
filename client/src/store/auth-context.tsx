@@ -10,6 +10,8 @@ export interface IContextType {
   isLoggedIn: boolean;
   login: (user: TUser) => void;
   logout: () => void;
+  isMenuOpen: boolean;
+  setIsMenuOpen: (value: boolean) => void;
 }
 
 type Props = {
@@ -26,6 +28,8 @@ const AuthContext = React.createContext<IContextType>({
   isLoggedIn: false,
   login: (user) => {},
   logout: () => {},
+  isMenuOpen: false,
+  setIsMenuOpen: (value) => {},
 });
 
 export const AuthContextProvider = ({ children }: Props) => {
@@ -53,11 +57,15 @@ export const AuthContextProvider = ({ children }: Props) => {
       });
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const contextValue = {
     user: user,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    isMenuOpen: isMenuOpen,
+    setIsMenuOpen: setIsMenuOpen,
   };
 
   return (
