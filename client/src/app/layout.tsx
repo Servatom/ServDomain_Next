@@ -1,3 +1,4 @@
+import { AuthContextProvider } from "@/store/auth-context";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -22,7 +23,9 @@ export default function RootLayout({
           href="https://servatom.com/servatom-logo-rounded.png"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <AuthContextProvider>{children}</AuthContextProvider>
+      </body>
     </html>
   );
 }

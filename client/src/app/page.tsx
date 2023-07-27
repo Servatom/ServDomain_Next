@@ -18,7 +18,7 @@ export default function Landing() {
         List your domain for subdomain rentals.
       </Callout>
       <Pricing />
-      <div className="flex flex-row items-center gap-3 mb-12 opacity-80 text-sm underline underline-offset-4">
+      <div className="flex flex-row items-center gap-3 mb-8 opacity-80 text-sm underline underline-offset-4">
         <Link href={"/tnc"} className="text-center ">
           Terms and Conditions
         </Link>
