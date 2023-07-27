@@ -2,6 +2,7 @@ import CheckForm from "@/components/Landing/CheckForm";
 import Hero from "@/components/Landing/Hero";
 import Pricing from "@/components/Landing/Pricing/Pricing";
 import Callout from "@/components/common/Callout";
+import Link from "next/link";
 
 export default function Landing() {
   return (
@@ -17,6 +18,21 @@ export default function Landing() {
         List your domain for subdomain rentals.
       </Callout>
       <Pricing />
+      <div className="flex flex-row items-center gap-3 mb-12 opacity-80 text-sm underline underline-offset-4">
+        <Link href={"/tnc"} className="text-center ">
+          Terms and Conditions
+        </Link>
+        |
+        <Link href={"/support"} className="text-center ">
+          Support
+        </Link>
+      </div>
+      <span className="pb-6 opacity-50 text-xs">
+        Born at{" "}
+        <a target="_blank" href="https://github.com/servatom">
+          Servatom
+        </a>
+      </span>
     </div>
   );
 }
