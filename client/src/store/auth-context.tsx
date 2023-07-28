@@ -1,9 +1,11 @@
 "use client";
+
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 // import customToast from "../components/common/CustomToast";
 import { auth } from "../firebase.config";
-import { TUser } from "@/types";
+import { useToast } from "@/components/ui/use-toast";
+import { TUser } from "@/types/types";
 
 export interface IContextType {
   user: TUser | null;
@@ -33,6 +35,7 @@ const AuthContext = React.createContext<IContextType>({
 });
 
 export const AuthContextProvider = ({ children }: Props) => {
+  const { toast } = useToast();
   const initialUser = localStorage.getItem("user");
 
   const [user, setUser] = useState<TUser | null>(
@@ -50,7 +53,10 @@ export const AuthContextProvider = ({ children }: Props) => {
       .then(() => {
         setUser(null);
         localStorage.removeItem("user");
-        // customToast("Logged out successfully!", "logout");
+        toast({
+          description: "Logged out successfully",
+          title: "Success!",
+        });
       })
       .catch((error) => {
         alert(error);

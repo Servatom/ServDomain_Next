@@ -1,5 +1,5 @@
 "use client";
-import { Terms } from "@/components/config";
+import { Terms } from "@/config";
 import { useRouter } from "next/navigation";
 import { IoArrowBackOutline } from "react-icons/io5";
 

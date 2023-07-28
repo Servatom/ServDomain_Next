@@ -1,4 +1,4 @@
-import { plans } from "@/components/config";
+import { plans } from "@/config";
 import PriceCard from "./PriceCard";
 
 const Pricing: React.FC = () => {

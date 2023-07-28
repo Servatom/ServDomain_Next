@@ -18,9 +18,7 @@ const Feature: React.FC<HTMLAttributes<HTMLDivElement>> = ({ children }) => {
           ></path>
         </svg>
       </div>
-      <p className="ml-3 text-base leading-6 text-gray-700 dark:text-gray-200">
-        {children}
-      </p>
+      <p className="ml-3 text-base leading-6 text-gray-200">{children}</p>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { IPricingCardProps, TPlan } from "./types";
+import { IPricingCardProps, TPlan } from "./components/types";
 
 export const features = {
   personal: ["CNAME Record", "A Record", "Billed Monthly"],
