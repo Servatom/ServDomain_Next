@@ -1,3 +1,4 @@
+import { validateHostname, validateIPv4 } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";
 
@@ -20,12 +21,14 @@ const AddForm: React.FC = () => {
           <InputGroup
             contentType="hostname"
             contentPlaceholder="www.example.com"
+            contentValidationHandler={validateHostname}
           />
         </TabsContent>
         <TabsContent value="a">
           <InputGroup
             contentType="IPv4 address"
             contentPlaceholder="69.42.0.69"
+            contentValidationHandler={validateIPv4}
           />
         </TabsContent>
       </Tabs>
