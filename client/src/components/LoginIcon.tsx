@@ -89,7 +89,7 @@ const LoginIcon = () => {
           <BiUser className="text-gray-300 p-2" size={45} />
         </div>
         {authCtx.isMenuOpen && (
-          <div className="absolute top-12 right-0 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-md bg-opacity-30 min-w-[80px] text-gray-300">
+          <div className="absolute z-50 top-12 right-0 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-md bg-opacity-30 min-w-[80px] text-gray-300">
             <MenuContent />
           </div>
         )}
