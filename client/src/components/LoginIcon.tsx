@@ -26,12 +26,12 @@ const LoginIcon = () => {
           <span className="p-2 px-4 border-b border-slate-700 w-full cursor-default font-bold">
             {authCtx.user!.phoneNumber}
           </span>
-          {!pathnameArray.includes("profile") ? (
+          {!pathnameArray.includes("account") ? (
             <span
               className="p-2 px-4 w-full hover:bg-slate-500 hover:bg-opacity-30"
               onClick={() => {
                 setIsMenuOpen(false);
-                router.push("/profile");
+                router.push("/account");
               }}
             >
               Manage Records
