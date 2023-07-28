@@ -1,6 +1,9 @@
 import { IPricingCardProps, TPlan } from "./components/types";
+import { TPlanName } from "./types/types";
 
-export const features = {
+export const features: {
+  [key in TPlanName]: string[];
+} = {
   personal: ["CNAME Record", "A Record", "Billed Monthly"],
   student: ["CNAME Record", "A Record", "Billed Monthly"],
   annual: ["CNAME Record", "A Record", "Hassle-free for an year"],

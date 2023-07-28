@@ -4,3 +4,5 @@ export type TUser = {
   userID: string;
   token: string;
 };
+
+export type TPlanName = "personal" | "student" | "annual";
