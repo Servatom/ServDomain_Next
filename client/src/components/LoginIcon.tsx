@@ -2,19 +2,20 @@
 
 import AuthContext from "@/store/auth-context";
 import { usePathname, useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Button from "./common/Button";
 import { BiUser } from "react-icons/bi";
 
 const LoginIcon = () => {
   const router = useRouter();
   const authCtx = useContext(AuthContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   // get the current pathname
   const pathname = usePathname();
   let pathnameArray = pathname.split("/");
 
   const handleLogout = () => {
-    authCtx.setIsMenuOpen(false);
+    setIsMenuOpen(false);
     router.push("/logout");
   };
 
@@ -29,7 +30,7 @@ const LoginIcon = () => {
             <span
               className="p-2 px-4 w-full hover:bg-slate-500 hover:bg-opacity-30"
               onClick={() => {
-                authCtx.setIsMenuOpen(false);
+                setIsMenuOpen(false);
                 router.push("/profile");
               }}
             >
@@ -39,7 +40,7 @@ const LoginIcon = () => {
             <span
               className="p-2 px-4 w-full hover:bg-slate-500 hover:bg-opacity-30"
               onClick={() => {
-                authCtx.setIsMenuOpen(false);
+                setIsMenuOpen(false);
                 router.push("/");
               }}
             >
@@ -60,7 +61,7 @@ const LoginIcon = () => {
           <Button
             className="w-48 mt-0"
             onClick={() => {
-              authCtx.setIsMenuOpen(false);
+              setIsMenuOpen(false);
               router.push("/login");
             }}
           >
@@ -72,23 +73,23 @@ const LoginIcon = () => {
 
   return (
     <div className="">
-      {authCtx.isMenuOpen && (
+      {isMenuOpen && (
         <div
           className="absolute w-screen h-screen"
           onClick={() => {
-            authCtx.setIsMenuOpen(false);
+            setIsMenuOpen(false);
           }}
         ></div>
       )}
       <div className="absolute cursor-pointer right-8 top-8 ">
         <div
           onClick={() => {
-            authCtx.setIsMenuOpen(!authCtx.isMenuOpen);
+            setIsMenuOpen(!isMenuOpen);
           }}
         >
           <BiUser className="text-gray-300 p-2" size={45} />
         </div>
-        {authCtx.isMenuOpen && (
+        {isMenuOpen && (
           <div className="absolute z-50 top-12 right-0 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-md bg-opacity-30 min-w-[80px] text-gray-300">
             <MenuContent />
           </div>

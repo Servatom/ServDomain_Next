@@ -1,3 +1,4 @@
+import { TPlanName } from "@/types/types";
 import { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
 export interface IDynamicInputProps extends HTMLAttributes<HTMLInputElement> {
@@ -30,4 +31,13 @@ export interface IPricingCardProps {
 export type TStatus = {
   variant: "success" | "error" | "neutral";
   text: string;
+};
+
+export type TRecord = {
+  id: string;
+  type: "A" | "CNAME";
+  name: string;
+  content: string;
+  expiry: string;
+  plan: TPlanName;
 };
