@@ -26,3 +26,8 @@ export type TPlan = {
 export interface IPricingCardProps {
   pricing: TPlan;
 }
+
+export type TStatus = {
+  variant: "success" | "error" | "neutral";
+  text: string;
+};

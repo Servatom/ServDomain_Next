@@ -3,17 +3,8 @@ import { HTMLAttributes, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
 import axios from "@/axios";
-
-export type TStatus = {
-  variant: "success" | "error" | "neutral";
-  text: string;
-};
-
-const statusVariantClasses = {
-  success: "text-green-400",
-  error: "text-red-400",
-  neutral: "text-gray-400",
-};
+import { TStatus } from "../types";
+import { statusVariantClasses } from "@/config";
 
 const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const { className } = props;

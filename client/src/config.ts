@@ -33,6 +33,12 @@ export const plans: TPlan[] = [
   },
 ];
 
+export const statusVariantClasses = {
+  success: "text-green-400",
+  error: "text-red-400",
+  neutral: "text-gray-400",
+};
+
 export const Terms = [
   "ServDomain is a propietary product of Servatom and is not affiliated with any other company.",
   "Servatom cares about your privacy and will not share your data with any third party.",

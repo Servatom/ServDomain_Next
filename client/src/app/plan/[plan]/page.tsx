@@ -1,5 +1,6 @@
 "use client";
 
+import AddForm from "@/components/Plan/AddForm";
 import Feature from "@/components/common/Feature";
 import { features, plans } from "@/config";
 import AuthContext from "@/store/auth-context";
@@ -59,6 +60,7 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
         </div>
       </div>
       {/* <AddForm plan={params.plan} /> */}
+      <AddForm />
       <div className="mt-20 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>
         {/* <RecordsTable allowActions /> */}

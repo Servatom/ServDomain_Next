@@ -1,0 +1,36 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import InputGroup from "./InputGroup";
+
+const AddForm: React.FC = () => {
+  return (
+    <div className="my-12 mx-auto w-full max-w-5xl flex justify-center items-center">
+      <Tabs
+        defaultValue="cname"
+        className="w-full flex items-center justify-center flex-col"
+      >
+        <TabsList className="px-3 py-2 gap-5 text-lg h-max mb-8 bg-background">
+          <TabsTrigger value="cname" className="text-lg font-semibold">
+            CNAME
+          </TabsTrigger>
+          <TabsTrigger value="a" className="text-lg">
+            A RECORD
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="cname">
+          <InputGroup
+            contentType="hostname"
+            contentPlaceholder="www.example.com"
+          />
+        </TabsContent>
+        <TabsContent value="a">
+          <InputGroup
+            contentType="IPv4 address"
+            contentPlaceholder="69.42.0.69"
+          />
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default AddForm;
