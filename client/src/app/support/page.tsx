@@ -16,7 +16,7 @@ export default function Support() {
         />
         Support
       </h1>
-      <p className="p-4">
+      <p className="p-4 ml-10 mt-4">
         For any queries or support, you can write at{" "}
         <a
           href="mailto:yash22arora+servatom@gmail.com"
