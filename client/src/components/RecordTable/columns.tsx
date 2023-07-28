@@ -2,6 +2,8 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { TRecord } from "../types";
+import UpdateRecord from "./UpdateRecord";
+import DeleteRecord from "./DeleteRecord";
 
 export const columns: ColumnDef<TRecord>[] = [
   {
@@ -37,7 +39,7 @@ export const columns: ColumnDef<TRecord>[] = [
           ? diff > 5 * 24 * 60 * 60 * 1000
             ? "text-green-300"
             : "text-yellow-200"
-          : "text-red-300";
+          : "text-red-400";
       return (
         <span className={`${dateColour}`}>
           {new Date(expiry).toLocaleDateString()}
@@ -58,7 +60,7 @@ export const columns: ColumnDef<TRecord>[] = [
               console.log("Edit", id);
             }}
           >
-            Edit
+            <UpdateRecord {...row.original} />
           </button>
           <button
             className="text-xs text-gray-300 hover:text-gray-500 px-4 py-2 focus:outline-none ml-2"
@@ -66,7 +68,7 @@ export const columns: ColumnDef<TRecord>[] = [
               console.log("Delete", id);
             }}
           >
-            Delete
+            <DeleteRecord {...row.original} />
           </button>
         </div>
       );
