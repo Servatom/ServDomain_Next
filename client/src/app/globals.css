@@ -122,8 +122,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(./assets/media/flare_light.avif);
+  background-image: url(../assets/media/flare_light.avif);
   background-size: 80%;
   background-repeat: no-repeat;
   background-position: top;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 0s ease-in-out 50000s;
+  -webkit-text-fill-color: rgb(225, 225, 225) !important;
+  /* Cursor color  */
+  caret-color: rgb(225, 225, 225);
 }

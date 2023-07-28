@@ -3,27 +3,21 @@
 import Button from "@/components/common/Button";
 import Loader from "@/components/common/Loader";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { auth } from "@/firebase.config";
 import { validateOtp, validatePhoneNumber } from "@/lib/utils";
 import AuthContext from "@/store/auth-context";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  ChangeEventHandler,
-  HTMLAttributes,
-  InputHTMLAttributes,
-  Ref,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import axios from "@/axios";
 import { IoArrowBackOutline } from "react-icons/io5";
 
 export default function Login() {
   const router = useRouter();
   const pathname = usePathname();
   const authctx = useContext(AuthContext);
+  const { toast } = useToast();
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
@@ -80,12 +74,17 @@ export default function Login() {
           window.confirmationResult = confirmationResult;
           setOtpSent(true);
           setLoading(false);
-          // customToast("OTP sent!", "otp");
+          toast({
+            title: "OTP sent successfully!",
+          });
           if (otpInputRef.current) otpInputRef.current.focus();
         })
         .catch((error) => {
           console.error(error);
-          // customToast("Error sending OTP. Try again later.");
+          toast({
+            title: "Error sending OTP. Try again later.",
+            variant: "destructive",
+          });
           setLoading(false);
           // reset recaptcha
           window.recaptchaVerifier.render().then((widgetId) => {
@@ -105,31 +104,40 @@ export default function Login() {
         // User signed in via firebase successfully.
 
         const user = result.user;
-        // axios
-        //   .post("/user/login", {
-        //     phoneNumber: user.phoneNumber,
-        //     firebaseUID: user.uid,
-        //   })
-        //   .then((res) => {
-        //     authCtx.login(res.data.data);
-        //     setLoading(false);
-        //     customToast("Logged in successfully!");
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //     setLoading(false);
-        //     customToast("Error logging in. Try again later.");
-        //   });
+        axios
+          .post("/user/login", {
+            phoneNumber: user.phoneNumber,
+            firebaseUID: user.uid,
+          })
+          .then((res) => {
+            authCtx.login(res.data.data);
+            setLoading(false);
+            toast({
+              title: "Logged in successfully!",
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            setLoading(false);
+            toast({
+              title: "Error logging in. Try again later.",
+              variant: "destructive",
+            });
+          });
 
         setTimeout(() => {
           // check from where user came to login page and redirect to that page
           router.push(redirect ? redirect : "/");
         }, 1000);
-        // ...
       })
       .catch((error) => {
         console.error(error);
-        // customToast("Wrong OTP. Try again.");
+        toast({
+          title: "Wrong OTP. Try again.",
+          variant: "destructive",
+        });
+        setLoading(false);
+        setIsOtpValid(false);
       });
   };
 
@@ -141,7 +149,7 @@ export default function Login() {
     setIsOtpValid(validateOtp(otp));
   }, [otp]);
 
-  // if (authCtx.isLoggedIn) return <Redirect to="/" />;
+  if (authCtx.isLoggedIn) return <>{router.replace("/")}</>;
 
   return (
     <div className="h-full w-full flex flex-col">
@@ -172,13 +180,13 @@ export default function Login() {
             <label htmlFor="otp">OTP:</label>
             <Input
               id="otp"
-              max={"9999"}
-              maxLength={4}
-              placeholder="XXXX"
+              maxLength={6}
+              placeholder="XXX-XXX"
               value={otp}
               onChange={handleOtpChange}
               disabled={!otpSent}
               ref={otpInputRef}
+              autoComplete="off"
             />
           </div>
           {!otpSent && (
@@ -187,7 +195,11 @@ export default function Login() {
               disabled={!isPhoneValid}
               onClick={handleSendOtp}
             >
-              {loading && <Loader />}
+              {loading && (
+                <div className="animate-spin mr-3">
+                  <Loader />
+                </div>
+              )}
               Send OTP
             </Button>
           )}

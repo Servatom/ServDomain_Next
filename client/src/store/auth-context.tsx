@@ -54,8 +54,7 @@ export const AuthContextProvider = ({ children }: Props) => {
         setUser(null);
         localStorage.removeItem("user");
         toast({
-          description: "Logged out successfully",
-          title: "Success!",
+          title: "Logged out successfully!",
         });
       })
       .catch((error) => {

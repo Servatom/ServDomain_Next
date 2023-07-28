@@ -1,7 +1,8 @@
 "use client";
-import { HTMLAttributes, useState } from "react";
+import { HTMLAttributes, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
+import axios from "@/axios";
 
 export type TStatus = {
   variant: "success" | "error" | "neutral";
@@ -22,6 +23,56 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
     variant: "neutral",
     text: "Enter value to check availability",
   });
+
+  useEffect(() => {
+    setIsLoading(false);
+    if (subdomain.length === 0) {
+      setStatus({
+        text: "Enter value to check availability",
+        variant: "neutral",
+      });
+    } else if (subdomain.length < 3) {
+      setStatus({
+        text: "Subdomain must be atleast 3 characters long",
+        variant: "error",
+      });
+    } else {
+      setIsLoading(true);
+      setStatus({
+        text: "Checking availability",
+        variant: "neutral",
+      });
+      const timeoutId = setTimeout(() => {
+        if (subdomain.length >= 3) {
+          axios
+            .get(`/subdomain/check?subdomain=${subdomain}`)
+            .then((res) => {
+              if (res.data.available) {
+                setStatus({
+                  text: "Subdomain is available",
+                  variant: "success",
+                });
+              } else {
+                setStatus({
+                  text: "Subdomain is not available",
+                  variant: "error",
+                });
+              }
+              setIsLoading(false);
+            })
+            .catch((err) => {
+              setStatus({
+                text: "Something went wrong",
+                variant: "error",
+              });
+              setIsLoading(false);
+            });
+        }
+      }, 1000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [subdomain]);
+
   return (
     <div className="flex flex-col m-4 p-4">
       <form
