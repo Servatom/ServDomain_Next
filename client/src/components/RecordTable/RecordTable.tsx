@@ -8,8 +8,9 @@ export const records: TRecord[] = [
     name: "joshi",
     content: "example.com",
     plan: "student",
-    expiry: "2023-05-01",
+    expiry: "2023-09-01",
     id: "1",
+    status: "active",
   },
   {
     type: "A",
@@ -18,6 +19,7 @@ export const records: TRecord[] = [
     plan: "student",
     expiry: "2023-04-03",
     id: "2",
+    status: "inactive",
   },
   {
     type: "A",
@@ -26,6 +28,7 @@ export const records: TRecord[] = [
     plan: "annual",
     expiry: "2023-03-27",
     id: "3",
+    status: "inactive",
   },
 ];
 

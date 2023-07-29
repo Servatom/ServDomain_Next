@@ -8,14 +8,14 @@ import { auth } from "@/firebase.config";
 import { validateOtp, validatePhoneNumber } from "@/lib/utils";
 import AuthContext from "@/store/auth-context";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "@/axios";
 import { IoArrowBackOutline } from "react-icons/io5";
 
 export default function Login() {
   const router = useRouter();
-  const pathname = usePathname();
+  const redirect = useSearchParams().get("redirect");
   const authctx = useContext(AuthContext);
   const { toast } = useToast();
 
@@ -27,8 +27,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const otpInputRef = useRef<HTMLInputElement>(null);
-  const query = new URLSearchParams(pathname.split("?")[1]);
-  const redirect = query.get("redirect");
   const authCtx = useContext(AuthContext);
 
   const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,6 +109,7 @@ export default function Login() {
           })
           .then((res) => {
             authCtx.login(res.data.data);
+            // TODO: check if user is new and collect info if yes
             setLoading(false);
             toast({
               title: "Logged in successfully!",

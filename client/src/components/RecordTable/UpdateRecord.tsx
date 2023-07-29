@@ -43,7 +43,9 @@ const UpdateRecord = (record: TRecord) => {
           <DialogTitle className="pb-2">Change Record?</DialogTitle>
           <DialogDescription>
             You can change the content of your CNAME/A Record as many times as
-            you want.
+            you want. Updated DNS entries can take upto{" "}
+            <span className="font-bold text-gray-200">24 hours</span> to
+            propagate.
           </DialogDescription>
           <div className="pt-6 flex flex-col w-full gap-3 text-gray-400">
             <span className="text-sm">Subdomain:</span>

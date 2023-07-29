@@ -19,7 +19,7 @@ const PriceCard: React.FC<IPricingCardProps> = ({ pricing }) => {
       pricingFreq = "/one-time";
   }
   return (
-    <div className="mb-4 overflow-hidden rounded-lg shadow-lg bg-gray-800 bg-opacity-40 backdrop-blur-lg max-w-md">
+    <div className="mb-4 overflow-hidden w-full basis-full md:min-w-[300px] lg:min-w-0  md:max-w-[calc(50%_-_32px)] xl:max-w-[calc(34%_-_32px)] rounded-lg shadow-lg bg-gray-800 bg-opacity-40 backdrop-blur-lg ">
       <div className="px-6 py-8  sm:p-10 sm:pb-6">
         <div className="flex justify-center">
           <span className="inline-flex px-4 py-1 text-sm font-semibold leading-5 tracking-wide uppercase rounded-full dark:text-white">

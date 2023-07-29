@@ -20,7 +20,7 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
   const authCtx = useContext(AuthContext);
 
   if (!authCtx.isLoggedIn) {
-    router.push(`/login?redirect=${params.plan}`);
+    router.push(`/login?redirect=plan/${params.plan}`);
   }
 
   const validPlans = ["personal", "student", "annual"];
