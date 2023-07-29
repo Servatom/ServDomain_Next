@@ -12,6 +12,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "@/axios";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { TUser } from "@/types/types";
 
 export default function Login() {
   const router = useRouter();
@@ -43,6 +44,16 @@ export default function Login() {
     } else {
       setOtp(e.target.value.slice(0, 6));
     }
+  };
+
+  const setServerLogin = async (user: TUser) => {
+    return await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
   };
 
   const onCaptchaVerify = () => {
@@ -92,7 +103,7 @@ export default function Login() {
     } else return;
   };
 
-  const handleVerifyOtp = () => {
+  const handleVerifyOtp = async () => {
     if (!isOtpValid) return;
     // verify otp
     setLoading(true);
@@ -103,7 +114,10 @@ export default function Login() {
 
         const user = result.user;
         axios
-          .post("/user/login", {
+          .post<{
+            data: TUser;
+            message: string;
+          }>("/user/login", {
             phoneNumber: user.phoneNumber,
             firebaseUID: user.uid,
           })
@@ -114,6 +128,14 @@ export default function Login() {
             toast({
               title: "Logged in successfully!",
             });
+            return res.data.data;
+          })
+          .then((data) => {
+            setServerLogin(data)
+              .then((res) => {})
+              .catch((err) => {
+                console.error(err);
+              });
           })
           .catch((err) => {
             console.error(err);

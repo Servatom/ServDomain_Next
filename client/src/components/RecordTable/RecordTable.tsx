@@ -2,44 +2,15 @@ import { TRecord } from "../types";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
 
-export const records: TRecord[] = [
-  {
-    type: "CNAME",
-    name: "joshi",
-    content: "example.com",
-    plan: "student",
-    expiry: "2023-09-01",
-    id: "1",
-    status: "active",
-  },
-  {
-    type: "A",
-    name: "mydomain",
-    content: "17.18.19.20",
-    plan: "student",
-    expiry: "2023-04-03",
-    id: "2",
-    status: "inactive",
-  },
-  {
-    type: "A",
-    name: "nerdbyrd",
-    content: "20.117.2.1",
-    plan: "annual",
-    expiry: "2023-03-27",
-    id: "3",
-    status: "inactive",
-  },
-];
-
-async function getData(): Promise<TRecord[]> {
-  // Fetch data from your API here.
-  return records;
-}
+// async function getData(): Promise<TRecord[]> {
+//   // Fetch data from your API here.
+//   return records;
+// }
 
 export default async function RecordsTable() {
-  const data = await getData();
-
+  const data: TRecord[] = (
+    await fetch("/api/records").then((res) => res.json())
+  ).data;
   return (
     <div className="container mx-auto py-6">
       <DataTable columns={columns} data={data} />
