@@ -5,16 +5,19 @@ import { statusVariantClasses } from "@/config";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";
+import { TRecordType } from "@/types/types";
 
 export type TContentType = "hostname" | "IPv4 address";
 
 interface IInputGroupProps {
+  recordType: TRecordType;
   contentType: TContentType;
   contentPlaceholder: string;
   contentValidationHandler: (content: string) => boolean;
 }
 
 const InputGroup: React.FC<IInputGroupProps> = ({
+  recordType,
   contentType,
   contentPlaceholder,
   contentValidationHandler,
@@ -32,8 +35,10 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInputValid, setIsInputValid] = useState<boolean>(false);
 
-  const validateInputs = () => {
+  const validateInputs = async () => {
     let isInputValid = true;
+    setIsInputValid(false);
+    setIsLoading(true);
 
     if (!validateSubdomain(subdomain)) {
       setSubdomainStatus({
@@ -42,11 +47,33 @@ const InputGroup: React.FC<IInputGroupProps> = ({
       });
       isInputValid = false;
     } else {
-      setSubdomainStatus({
-        text: "Subdomain available",
-        variant: "success",
-      });
+      await fetch(`/api/subdomain?subdomain=${subdomain}`)
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.isAvailable) {
+            setSubdomainStatus({
+              text: "Subdomain available",
+              variant: "success",
+            });
+          } else {
+            setSubdomainStatus({
+              text: "Subdomain not available",
+              variant: "error",
+            });
+            isInputValid = false;
+          }
+        })
+        .catch((err) => {
+          setSubdomainStatus({
+            text: "Something went wrong",
+            variant: "error",
+          });
+          isInputValid = false;
+        });
     }
+
     if (!contentValidationHandler(content)) {
       setContentStatus({
         text: "Invalid " + contentType,
@@ -59,6 +86,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
         variant: "success",
       });
     }
+    setIsLoading(false);
     setIsInputValid(isInputValid);
   };
 
@@ -92,11 +120,11 @@ const InputGroup: React.FC<IInputGroupProps> = ({
         </span>
       </div>
       <div className="flex flex-col gap-3">
-        <label htmlFor="content" className="text-sm">
+        <label htmlFor={"content-" + recordType} className="text-sm">
           Content
         </label>
         <Input
-          id="content"
+          id={"content-" + recordType}
           placeholder={contentPlaceholder}
           maxLength={24}
           value={content}
@@ -115,6 +143,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
       <Button
         className={""}
         onClick={!isInputValid ? validateInputs : addRecord}
+        disabled={isLoading}
       >
         {isLoading && <Loader className="mr-3" size={14} />}
         <span className="text-lg">{isInputValid ? "Add" : "Check"}</span>

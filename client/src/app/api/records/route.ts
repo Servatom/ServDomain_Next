@@ -5,7 +5,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   const records = await axiosInstance
-    .get("/subdomain", {
+    .get("/record", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -24,6 +24,32 @@ export async function GET(req: NextRequest) {
   }
 
   return new Response(JSON.stringify({ data: records }), {
+    status: 200,
+  });
+}
+
+export async function POST(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
+  const body = await req.json();
+
+  const result = await axiosInstance
+    .post("/record", body, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      return res.data;
+    })
+    .catch((err) => {
+      console.error(err);
+      return new Response(JSON.stringify({ message: "error" }), {
+        status: 500,
+      });
+    });
+
+  return new Response(JSON.stringify({ data: result }), {
     status: 200,
   });
 }

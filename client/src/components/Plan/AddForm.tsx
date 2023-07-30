@@ -19,6 +19,7 @@ const AddForm: React.FC = () => {
         </TabsList>
         <TabsContent value="cname">
           <InputGroup
+            recordType="CNAME"
             contentType="hostname"
             contentPlaceholder="www.example.com"
             contentValidationHandler={validateHostname}
@@ -26,6 +27,7 @@ const AddForm: React.FC = () => {
         </TabsContent>
         <TabsContent value="a">
           <InputGroup
+            recordType="A"
             contentType="IPv4 address"
             contentPlaceholder="69.42.0.69"
             contentValidationHandler={validateIPv4}

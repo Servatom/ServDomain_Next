@@ -35,10 +35,12 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
       });
       const timeoutId = setTimeout(() => {
         if (subdomain.length >= 3) {
-          axios
-            .get(`/subdomain/check?subdomain=${subdomain}`)
+          fetch(`/api/subdomain?subdomain=${subdomain}`)
             .then((res) => {
-              if (res.data.available) {
+              return res.json();
+            })
+            .then((res) => {
+              if (res.isAvailable) {
                 setStatus({
                   text: "Subdomain is available",
                   variant: "success",
