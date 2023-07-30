@@ -6,6 +6,8 @@ import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";
 import { TRecordType } from "@/types/types";
+import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 export type TContentType = "hostname" | "IPv4 address";
 
@@ -22,6 +24,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   contentPlaceholder,
   contentValidationHandler,
 }) => {
+  const pathname = usePathname();
   const [subdomain, setSubdomain] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [subdomainStatus, setSubdomainStatus] = useState<TStatus>({
@@ -94,7 +97,33 @@ const InputGroup: React.FC<IInputGroupProps> = ({
     setIsInputValid(false);
   }, [subdomain, content]);
 
-  const addRecord = () => {};
+  const addRecord = async () => {
+    setIsLoading(true);
+    const plan = pathname.split("/")[2];
+    await fetch("/api/records", {
+      method: "POST",
+      body: JSON.stringify({
+        name: subdomain,
+        content: content,
+        type: recordType,
+        plan: plan,
+      }),
+    }).then((res) => {
+      if (res.status === 201) {
+        toast({
+          title: "Record request submitted!",
+          description:
+            "It will be added to your account once the payment confirmation is received.",
+        });
+      } else {
+        toast({
+          title: "Something went wrong!",
+          description: "Please try again later.",
+        });
+      }
+    });
+    setIsLoading(false);
+  };
 
   return (
     <div className="flex flex-row items-center gap-6 my-3">

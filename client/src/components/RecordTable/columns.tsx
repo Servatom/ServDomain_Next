@@ -34,15 +34,31 @@ export const columns: ColumnDef<TRecord>[] = [
       const expiry = new Date(row.original.expiry).getTime();
       let today = new Date().getTime();
       let diff = expiry - today;
-      let dateColour =
-        diff > 0
-          ? diff > 5 * 24 * 60 * 60 * 1000
-            ? "text-green-300"
-            : "text-yellow-200"
+      // let dateColour =
+      //   diff > 0
+      //     ? diff > 5 * 24 * 60 * 60 * 1000
+      //       ? "text-green-300"
+      //       : "text-yellow-200"
+      //     : "text-red-400";
+      return (
+        <span className={``}>{new Date(expiry).toLocaleDateString()}</span>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const statusColour =
+        status === "active"
+          ? "text-green-300"
+          : status === "processing"
+          ? "text-yellow-200"
           : "text-red-400";
       return (
-        <span className={`${dateColour}`}>
-          {new Date(expiry).toLocaleDateString()}
+        <span className={`${statusColour}`}>
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </span>
       );
     },

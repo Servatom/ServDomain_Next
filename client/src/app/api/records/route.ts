@@ -50,6 +50,6 @@ export async function POST(req: NextRequest) {
     });
 
   return new Response(JSON.stringify({ data: result }), {
-    status: 200,
+    status: 201,
   });
 }
