@@ -15,8 +15,8 @@ const Account = () => {
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <div className="flex flex-row items-center justify-center gap-4 py-8">
-        <h1 className="text-2xl font-medium">{authCtx.user?.phoneNumber}</h1>
+      <div className="flex flex-row items-center justify-center gap-4 pt-8 pb-2">
+        <h1 className="text-xl font-medium ">{authCtx.user?.phoneNumber}</h1>
         <span>|</span>
         <span
           className="cursor-pointer hover:underline underline-offset-4"
@@ -27,6 +27,7 @@ const Account = () => {
           Log Out
         </span>
       </div>
+      <span className="text-gray-400 text-sm">{authCtx.user?.email}</span>
       <div className="mt-20 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>
         {/* <RecordsTable allowActions /> */}

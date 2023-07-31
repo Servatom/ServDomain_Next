@@ -10,13 +10,12 @@ export default function Logout() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!authCtx.isLoggedIn) return router.push("/");
-
+    if (!authCtx.isLoggedIn) {
+      router.replace("/");
+    }
     authCtx.logout();
-    setTimeout(() => {
-      router.push("/");
-    }, 800);
-  }, [authCtx]);
+    router.replace("/");
+  }, []);
 
   return (
     <div className="w-full h-full flex items-center justify-center p-4 flex-col gap-4">

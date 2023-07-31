@@ -40,7 +40,11 @@ const AuthContext = React.createContext<IContextType>({
 
 export const AuthContextProvider = ({ children }: Props) => {
   const { toast } = useToast();
-  const initialUser = localStorage.getItem("user");
+
+  let initialUser;
+  if (typeof window !== "undefined") {
+    initialUser = localStorage.getItem("user");
+  }
 
   const [user, setUser] = useState<TUser | null>(
     !!initialUser ? JSON.parse(initialUser) : null

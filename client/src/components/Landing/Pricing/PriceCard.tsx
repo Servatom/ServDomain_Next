@@ -45,7 +45,7 @@ const PriceCard: React.FC<IPricingCardProps> = ({ pricing }) => {
           ))}
         </ul>
         <div className="mt-6">
-          <Link href={`/plan/${pricing.name.toLowerCase()}`}>
+          <Link href={`/api/plan?plan=${pricing.name.toLowerCase()}`}>
             <Button>
               <span>Start {pricing.name} plan</span>
             </Button>

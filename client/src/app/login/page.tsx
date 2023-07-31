@@ -14,10 +14,18 @@ import axios from "@/axios";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { TUser } from "@/types/types";
 
+const setServerLogin = async (user: TUser) => {
+  return await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  });
+};
+
 export default function Login() {
   const router = useRouter();
-  const redirect = useSearchParams().get("redirect");
-  const authctx = useContext(AuthContext);
   const { toast } = useToast();
 
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,16 +52,6 @@ export default function Login() {
     } else {
       setOtp(e.target.value.slice(0, 6));
     }
-  };
-
-  const setServerLogin = async (user: TUser) => {
-    return await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-    });
   };
 
   const onCaptchaVerify = () => {
@@ -130,9 +128,14 @@ export default function Login() {
             });
             return res.data.data;
           })
-          .then((data) => {
-            setServerLogin(data)
-              .then((res) => {})
+          .then(async (data) => {
+            await setServerLogin(data)
+              .then((res) => {
+                res.json().then((data) => {
+                  console.log(data);
+                  router.replace(data.redirect);
+                });
+              })
               .catch((err) => {
                 console.error(err);
               });
@@ -145,11 +148,6 @@ export default function Login() {
               variant: "destructive",
             });
           });
-
-        setTimeout(() => {
-          // check from where user came to login page and redirect to that page
-          router.push(redirect ? redirect : "/");
-        }, 1000);
       })
       .catch((error) => {
         console.error(error);
@@ -170,7 +168,9 @@ export default function Login() {
     setIsOtpValid(validateOtp(otp));
   }, [otp]);
 
-  if (authCtx.isLoggedIn) return <>{router.replace("/")}</>;
+  useEffect(() => {
+    if (authCtx.isLoggedIn) router.replace("/");
+  }, []);
 
   return (
     <div className="h-full w-full flex flex-col">
