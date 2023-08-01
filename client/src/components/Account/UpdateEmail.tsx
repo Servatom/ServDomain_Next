@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Input } from "../ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
+import AuthContext from "@/store/auth-context";
 
 const UpdateEmail: React.FC = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const authCtx = useContext(AuthContext);
 
   const handleUpdateEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,8 +22,10 @@ const UpdateEmail: React.FC = () => {
       },
       body: JSON.stringify({ email }),
     })
-      .then((res) => {
+      .then(async (res) => {
         if (res.status === 200) {
+          const data = await res.json().then((data) => data.data);
+          authCtx.updateEmail(data.email);
           toast({
             title: "Email updated successfully!",
           });
@@ -42,7 +46,6 @@ const UpdateEmail: React.FC = () => {
     //     title: "Email updated successfully!",
     //   });
     // }
-    console.log(result);
 
     setLoading(false);
   };

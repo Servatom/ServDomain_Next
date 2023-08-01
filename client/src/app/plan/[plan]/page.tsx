@@ -6,7 +6,7 @@ import Feature from "@/components/common/Feature";
 import { features, plans } from "@/config";
 import { TPlanName } from "@/types/types";
 import { useRouter } from "next/navigation";
-import { Suspense, useContext } from "react";
+import { Suspense, useContext, useEffect } from "react";
 
 interface PageProps {
   params: {
@@ -21,13 +21,15 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
   let planTitle = params.plan + " Plan";
   planTitle = planTitle.charAt(0).toUpperCase() + planTitle.slice(1);
 
-  const isPlanValid = validPlans.includes(params.plan);
-  if (!isPlanValid) {
-    return router.push("/404");
-  }
+  useEffect(() => {
+    if (!validPlans.includes(params.plan)) {
+      router.push("/404");
+    }
+  }, []);
+
   let plan = plans.find((plan) => plan.name.toLowerCase() === params.plan);
   if (!plan) {
-    return router.push("/404");
+    return <></>;
   }
   let priceFreq =
     plan.frequency === "Daily"

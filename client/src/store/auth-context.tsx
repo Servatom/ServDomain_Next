@@ -14,6 +14,7 @@ export interface IContextType {
   logout: () => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (value: boolean) => void;
+  updateEmail: (email: string) => void;
 }
 
 type Props = {
@@ -36,6 +37,7 @@ const AuthContext = React.createContext<IContextType>({
   logout: () => {},
   isMenuOpen: false,
   setIsMenuOpen: (value) => {},
+  updateEmail: (email) => {},
 });
 
 export const AuthContextProvider = ({ children }: Props) => {
@@ -72,6 +74,17 @@ export const AuthContextProvider = ({ children }: Props) => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const updateEmail = (email: string) => {
+    setUser((prevState) => {
+      if (prevState) {
+        const updatedUser = { ...prevState, email: email };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        return updatedUser;
+      }
+      return prevState;
+    });
+  };
+
   const contextValue = {
     user: user,
     isLoggedIn: userIsLoggedIn,
@@ -79,6 +92,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     logout: logoutHandler,
     isMenuOpen: isMenuOpen,
     setIsMenuOpen: setIsMenuOpen,
+    updateEmail: updateEmail,
   };
 
   return (

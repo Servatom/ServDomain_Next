@@ -132,7 +132,6 @@ export default function Login() {
             await setServerLogin(data)
               .then((res) => {
                 res.json().then((data) => {
-                  console.log(data);
                   router.replace(data.redirect);
                 });
               })
