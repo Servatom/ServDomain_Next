@@ -1,4 +1,4 @@
-import { IPricingCardProps, TPlan } from "./components/types";
+import { IPricingCardProps, TPlan, TPlanFrequency } from "./components/types";
 import { TPlanName } from "./types/types";
 
 export const features: {
@@ -32,6 +32,33 @@ export const plans: TPlan[] = [
     features: features["annual"],
   },
 ];
+
+export const paymentPagePlans: {
+  [key in TPlanName]: {
+    price: number;
+    frequency: TPlanFrequency;
+    description: string;
+  };
+} = {
+  personal: {
+    price: 30,
+    frequency: "Monthly",
+    description:
+      "Personal Plan lets you own a CNAME/A Record at ₹1 per day, billed monthly. You can freely edit the content of a record after purchase.",
+  },
+  student: {
+    price: 15,
+    frequency: "Monthly",
+    description:
+      "Student Plan lets you own a CNAME/A Record at ₹0.5 per day, billed monthly. You can freely edit the content of a record after purchase.",
+  },
+  annual: {
+    price: 100,
+    frequency: "Yearly",
+    description:
+      "Annual Plan lets you own a CNAME/A Record at ₹100 per annum, saving a MASSIVE 72%. You can freely edit the content of a record after purchase. Pay once a year and stay hassle-free!",
+  },
+};
 
 export const statusVariantClasses = {
   success: "text-green-400",

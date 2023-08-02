@@ -6,7 +6,7 @@ import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";
 import { TRecordType } from "@/types/types";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
 
 export type TContentType = "hostname" | "IPv4 address";
@@ -24,6 +24,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   contentPlaceholder,
   contentValidationHandler,
 }) => {
+  const router = useRouter();
   const pathname = usePathname();
   const [subdomain, setSubdomain] = useState<string>("");
   const [content, setContent] = useState<string>("");
@@ -100,28 +101,42 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   const addRecord = async () => {
     setIsLoading(true);
     const plan = pathname.split("/")[2];
-    await fetch("/api/records", {
-      method: "POST",
-      body: JSON.stringify({
-        name: subdomain,
-        content: content,
-        type: recordType,
-        plan: plan,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
+
+    try {
+      const data = await fetch("/api/records", {
+        method: "POST",
+        body: JSON.stringify({
+          name: subdomain,
+          content: content,
+          type: recordType,
+          plan: plan,
+        }),
+      });
+
+      if (data.status === 201) {
         toast({
           title: "Record request submitted!",
           description:
             "It will be added to your account once the payment confirmation is received.",
         });
+
+        const { recordId } = await data.json();
+        router.push(`/payment?plan=${plan}&recordId=${recordId}`);
       } else {
         toast({
           title: "Something went wrong!",
           description: "Please try again later.",
+          variant: "destructive",
         });
       }
-    });
+      setIsLoading(false);
+    } catch (err) {
+      toast({
+        title: "Something went wrong!",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    }
     setIsLoading(false);
   };
 
