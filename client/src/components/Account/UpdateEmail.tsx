@@ -15,7 +15,7 @@ const UpdateEmail: React.FC = () => {
   const handleUpdateEmail = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const result = await fetch("/api/account/update-email", {
+    const result = await fetch("/api/account/update", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

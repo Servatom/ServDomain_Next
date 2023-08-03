@@ -22,7 +22,7 @@ export const validateHostname = (hostname: string) => {
 };
 
 export const validateSubdomain = (subdomain: string) => {
-  const regex = /^([a-z0-9]+((\.|\-)[a-z0-9]+)*)*$/;
+  const regex = /^[a-zA-z][a-zA-Z0-9]+((\.|\-)[a-zA-Z0-9]+)*$/;
   return regex.test(subdomain);
 };
 

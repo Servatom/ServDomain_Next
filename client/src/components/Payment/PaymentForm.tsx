@@ -1,7 +1,7 @@
 "use client";
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "../ui/use-toast";
 import Button from "../common/Button";
@@ -81,6 +81,7 @@ export default function PaymentForm() {
       });
 
       if (paymentResult?.error) {
+        setLoading(false);
         return toast({
           title: "Payment failed",
           description: paymentResult.error.message,
@@ -108,13 +109,14 @@ export default function PaymentForm() {
       }
 
       router.replace("/account");
-    } catch (error: any) {
+    } catch (error: AxiosError | any) {
       console.log(error);
       toast({
         title: "Payment failed",
-        description: error.message,
+        description: error.response.data,
         variant: "destructive",
       });
+      setLoading(false);
     }
   };
 
@@ -191,8 +193,13 @@ export default function PaymentForm() {
               <Loader />
             </div>
           )}
-          Complete Payment
+          Subscribe
         </Button>
+        <span className="text-xs opacity-40 text-center">
+          By confirming your subscription, you allow Servdomain to charge your
+          card for this payment and future payments in accordance with their
+          terms. You can always cancel your subscription.
+        </span>
       </form>
     </div>
   );

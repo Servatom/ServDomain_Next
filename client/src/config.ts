@@ -33,6 +33,30 @@ export const plans: TPlan[] = [
   },
 ];
 
+export const products: {
+  [key: string]: {
+    productId: string;
+    interval: "month" | "year" | "week" | "day";
+    unit_amount: number;
+  };
+} = {
+  annual: {
+    productId: "prod_OMM6tsZxTAFR3O",
+    interval: "year",
+    unit_amount: 10000,
+  },
+  personal: {
+    productId: "prod_OMM2P5yDisxbhd",
+    interval: "month",
+    unit_amount: 3000,
+  },
+  student: {
+    productId: "prod_OMLgz8ig0G6jLY",
+    interval: "month",
+    unit_amount: 1500,
+  },
+};
+
 export const paymentPagePlans: {
   [key in TPlanName]: {
     price: number;

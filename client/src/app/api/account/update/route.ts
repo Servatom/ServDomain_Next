@@ -7,8 +7,8 @@ export async function POST(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   const result = await axiosInstance
-    .post(
-      "/user/update-email",
+    .patch(
+      "/user/update",
       {
         email,
       },
