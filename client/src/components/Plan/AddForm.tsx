@@ -1,3 +1,5 @@
+"use client";
+
 import { validateHostname, validateIPv4 } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";

@@ -121,7 +121,9 @@ const InputGroup: React.FC<IInputGroupProps> = ({
         });
 
         const { recordId } = await data.json();
-        router.push(`/payment?plan=${plan}&recordId=${recordId}`);
+        router.push(
+          `/payment?plan=${plan}&recordId=${recordId}&name=${subdomain}`
+        );
       } else {
         toast({
           title: "Something went wrong!",

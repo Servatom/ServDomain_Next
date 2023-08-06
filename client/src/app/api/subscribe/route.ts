@@ -1,4 +1,7 @@
+import axiosInstance from "@/axios";
+import { products } from "@/config";
 import { setCookie } from "@/lib/actions.server";
+import { TUser } from "@/types/types";
 import { NextResponse, NextRequest } from "next/server";
 import Stripe from "stripe";
 
@@ -8,67 +11,86 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest) {
-  const products: {
-    [key: string]: {
-      productId: string;
-      interval: "month" | "year" | "week" | "day";
-      unit_amount: number;
-    };
-  } = {
-    annual: {
-      productId: "prod_OMM6tsZxTAFR3O",
-      interval: "year",
-      unit_amount: 10000,
-    },
-    personal: {
-      productId: "prod_OMM2P5yDisxbhd",
-      interval: "month",
-      unit_amount: 3000,
-    },
-    student: {
-      productId: "prod_OMLgz8ig0G6jLY",
-      interval: "month",
-      unit_amount: 1500,
-    },
-  };
   const {
     data,
   }: {
     data: {
-      email: string;
-      phone: string;
-      firebaseId: string;
       paymentMethod: string;
       plan: "annual" | "personal" | "student";
       recordId: string;
+      subdomain: string;
     };
   } = await req.json();
-  const { email, phone, paymentMethod, plan, recordId, firebaseId } = data;
+
+  const token = req.cookies.get("token")?.value;
+  const { paymentMethod, plan, recordId, subdomain } = data;
   try {
-    // 1. create customer
-    const customer = await stripe.customers.create({
-      email: email,
-      phone: phone,
-      payment_method: paymentMethod,
-      invoice_settings: {
-        default_payment_method: paymentMethod,
-      },
+    const user: TUser = await axiosInstance
+      .get("/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data.data);
+
+    let customerId = "";
+    console.log(user);
+    if (user.stripeCustomerId) {
+      console.log("customer exists");
+      customerId = user.stripeCustomerId;
+    } else {
+      // 1. create customer
+      console.log("customer does not exist");
+      const customer = await stripe.customers.create({
+        email: user.email,
+        phone: user.phoneNumber,
+        payment_method: paymentMethod,
+        invoice_settings: {
+          default_payment_method: paymentMethod,
+        },
+        metadata: {
+          firebaseId: user.firebaseUID,
+        },
+      });
+
+      console.log(customer);
+
+      customerId = customer.id;
+      const updatedUser = await axiosInstance
+        .patch(
+          "/user/update",
+          {
+            stripeCustomerId: customerId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => res.data.data);
+    }
+
+    // 2. Create Product
+
+    const product = await stripe.products.create({
+      name: `${subdomain} - ${plan} plan`,
       metadata: {
-        firebaseId,
+        recordId,
+        plan,
+        firebaseId: user.firebaseUID,
       },
     });
-    setCookie("stripeCustomerId", customer.id);
-    console.log(customer);
 
-    // 2. create subscription
+    // 3. create subscription
 
     const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
+      customer: customerId,
       items: [
         {
           price_data: {
-            currency: "inr",
-            product: products[plan].productId,
+            currency: "INR",
+            product: product.id,
             unit_amount: products[plan].unit_amount,
             recurring: {
               interval: products[plan].interval,
@@ -83,7 +105,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         recordId,
         plan,
-        firebaseId,
+        firebaseId: user.firebaseUID,
       },
       expand: ["latest_invoice.payment_intent"],
     });

@@ -22,6 +22,7 @@ export default function PaymentForm() {
   const { user, isLoggedIn } = useContext(AuthContext);
   const plan = query.get("plan") as TPlanName;
   const recordId = query.get("recordId");
+  const subdomain = query.get("name");
   const [name, setName] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -31,6 +32,7 @@ export default function PaymentForm() {
   useEffect(() => {
     const plan = query.get("plan");
     const recordId = query.get("recordId");
+    const subdomain = query.get("name");
 
     if (!isLoggedIn) router.push("/login");
 
@@ -64,11 +66,9 @@ export default function PaymentForm() {
 
       const { data, status } = await axios.post("/api/subscribe", {
         data: {
-          email: user?.email,
-          phone: user?.phoneNumber,
-          firebaseId: user?.firebaseUID,
           plan,
           recordId,
+          subdomain,
           paymentMethod: paymentMethod?.id,
         },
       });
@@ -107,7 +107,6 @@ export default function PaymentForm() {
           description: "Your record status is pending.",
         });
       }
-
       router.replace("/account");
     } catch (error: AxiosError | any) {
       console.log(error);

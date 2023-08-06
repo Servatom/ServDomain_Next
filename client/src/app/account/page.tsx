@@ -6,11 +6,19 @@ import AuthContext from "@/store/auth-context";
 import { ArrowRight, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Suspense, useContext } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 
 const Account = () => {
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
   const authCtx = useContext(AuthContext);
   const router = useRouter();
+  if (!hydrated) {
+    // Returns null on first render, so the client and server match
+    return null;
+  }
   return (
     <div className="w-full h-full flex flex-col items-center p-16">
       <Avatar className="w-24 h-24 mt-12">
