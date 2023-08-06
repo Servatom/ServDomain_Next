@@ -23,11 +23,13 @@ export default function PaymentForm() {
   const plan = query.get("plan") as TPlanName;
   const recordId = query.get("recordId");
   const subdomain = query.get("name");
+  const [cards, setCards] = useState<any[]>([]);
   const [name, setName] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [allowPayment, setAllowPayment] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
   useEffect(() => {
     const plan = query.get("plan");
@@ -40,8 +42,28 @@ export default function PaymentForm() {
   }, [isLoggedIn]);
 
   useEffect(() => {
-    setAllowPayment(isChecked && !error && name.length > 0);
+    if (!selectedCard) setAllowPayment(isChecked && !error && name.length > 0);
+    else setAllowPayment(isChecked);
   }, [error, isChecked]);
+
+  useEffect(() => {
+    const cards = fetch("/api/account/list-payment-methods", {
+      method: "GET",
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        setCards(res.data);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(selectedCard);
+  }, [selectedCard]);
 
   const cardErrorHandler = (e: StripeCardElementChangeEvent) => {
     setError(e.error?.message || "");
@@ -55,21 +77,28 @@ export default function PaymentForm() {
     try {
       if (!stripe || !cardElement) return null;
 
-      const paymentMethod = await stripe
-        .createPaymentMethod({
-          type: "card",
-          card: cardElement,
-        })
-        .then((result) => {
-          return result.paymentMethod;
-        });
+      let paymentMethodId: string;
+      if (!selectedCard) {
+        const paymentMethod = await stripe
+          .createPaymentMethod({
+            type: "card",
+            card: cardElement,
+          })
+          .then((result) => {
+            return result.paymentMethod;
+          });
 
+        paymentMethodId = paymentMethod?.id || "";
+      } else {
+        paymentMethodId = selectedCard;
+      }
+      console.log(paymentMethodId);
       const { data, status } = await axios.post("/api/subscribe", {
         data: {
           plan,
           recordId,
           subdomain,
-          paymentMethod: paymentMethod?.id,
+          paymentMethod: paymentMethodId,
         },
       });
       const clientSecret = data;
@@ -77,7 +106,7 @@ export default function PaymentForm() {
       if (status !== 200) throw new Error("Something went wrong.");
 
       const paymentResult = await stripe?.confirmCardPayment(clientSecret, {
-        payment_method: paymentMethod?.id,
+        payment_method: paymentMethodId,
       });
 
       if (paymentResult?.error) {
@@ -123,7 +152,7 @@ export default function PaymentForm() {
 
   return (
     <div className="flex flex-col w-full max-w-2xl mx-auto my-auto p-16 pt-8 bg-[#1b1b1b95] backdrop-blur-xl">
-      <div className="flex flex-col gap-2 mt-4 mb-8 text-gray-400">
+      <div className="flex flex-col gap-2 mt-4 mb-2 text-gray-400">
         <p className="font-medium text-xl">{plan?.toUpperCase()} PLAN</p>
         <div className="font-medium ">
           <span className="text-5xl text-white">
@@ -133,6 +162,40 @@ export default function PaymentForm() {
         </div>
         <p>{paymentPagePlans[plan].description}</p>
       </div>
+      {cards.length > 0 && (
+        <div className="flex flex-col w-full gap-4 my-4">
+          <h4 className="text-gray-400 font-medium">Use an existing card:</h4>
+          {cards.map((card, idx) => {
+            return (
+              <div
+                key={idx}
+                className={`py-2 px-3 bg-[#252525d0] hover:cursor-pointer ${
+                  selectedCard === card.id
+                    ? "outline outline-2 outline-gray-400"
+                    : ""
+                } rounded-md text-sm text-gray-300 font-semibold flex flex-row justify-between items-center w-full`}
+                onClick={() => {
+                  if (selectedCard === card.id) setSelectedCard(null);
+                  else setSelectedCard(card.id);
+                }}
+              >
+                <span>{card?.card?.brand.toUpperCase()} </span>
+                <span>{"XXXX XXXX XXXX " + card?.card?.last4}</span>
+                <span>
+                  {/* Add expiry month and year in MM/YY format */}
+                  {card?.card?.exp_month + "/" + card?.card?.exp_year}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      {cards.length > 0 && (
+        <p className="text-gray-400 font-medium mt-6 mb-3">
+          Or use a new card:
+        </p>
+      )}
+
       <form
         onSubmit={onSubmit}
         className="w-full flex flex-col gap-8 text-white"
@@ -146,6 +209,7 @@ export default function PaymentForm() {
             onChange={(e) => {
               setName(e.target.value);
             }}
+            disabled={selectedCard !== null}
           />
         </div>
         <div className="border-b-2 border-slate-800 pb-3">
@@ -162,6 +226,7 @@ export default function PaymentForm() {
                 },
               },
               hidePostalCode: true,
+              disabled: selectedCard !== null,
             }}
           />
         </div>

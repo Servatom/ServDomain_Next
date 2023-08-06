@@ -1,7 +1,10 @@
 "use client";
 
 import RecordsTable from "@/components/RecordTable/RecordTable";
+import Button from "@/components/common/Button";
+import Loader from "@/components/common/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "@/components/ui/use-toast";
 import AuthContext from "@/store/auth-context";
 import { ArrowRight, Pencil } from "lucide-react";
 import Link from "next/link";
@@ -10,6 +13,7 @@ import { Suspense, useContext, useEffect, useState } from "react";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     setHydrated(true);
   }, []);
@@ -19,6 +23,31 @@ const Account = () => {
     // Returns null on first render, so the client and server match
     return null;
   }
+
+  const handleManageSubscriptions = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch("/api/account/manage-subscriptions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.url) {
+        router.push(data.url);
+      } else {
+        throw new Error("Something went wrong");
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: error,
+        variant: "destructive",
+      });
+    }
+    setIsLoading(false);
+  };
   return (
     <div className="w-full h-full flex flex-col items-center p-16">
       <Avatar className="w-24 h-24 mt-12">
@@ -57,7 +86,20 @@ const Account = () => {
           </Link>
         </span>
       )}
-      <div className="mt-20 w-full">
+      <div className="flex flex-row justify-between items-start w-full px-20 mt-20">
+        <p className="flex-grow pr-8">
+          Your payments and subscriptions can be managed via Stripe Customer
+          Portal. All your payments are processed by Stripe and we do not store
+          any of your payment card information.
+        </p>
+        <div>
+          <Button className="w-max" onClick={handleManageSubscriptions}>
+            {isLoading && <Loader className="mr-3" size={14} />}
+            Manage Subscriptions
+          </Button>
+        </div>
+      </div>
+      <div className="mt-16 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>
         {/* <RecordsTable allowActions /> */}
         <Suspense>
