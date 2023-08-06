@@ -31,7 +31,11 @@ export async function POST(req: NextRequest) {
 
   const session = await stripe.billingPortal.sessions.create({
     customer: user.stripeCustomerId,
-    return_url: "http://localhost:3000/account",
+    return_url: `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://domains.servatom.com"
+    }/account`,
   });
 
   return new NextResponse(

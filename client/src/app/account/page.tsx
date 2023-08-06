@@ -49,8 +49,8 @@ const Account = () => {
     setIsLoading(false);
   };
   return (
-    <div className="w-full h-full flex flex-col items-center p-16">
-      <Avatar className="w-24 h-24 mt-12">
+    <div className="w-full h-full flex flex-col items-center p-16 max-w-7xl mx-auto">
+      <Avatar className="w-24 h-24 mt-8">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -86,7 +86,7 @@ const Account = () => {
           </Link>
         </span>
       )}
-      <div className="flex flex-row justify-between items-start w-full px-20 mt-20">
+      <div className="flex flex-row justify-between items-start w-full mt-20 px-8">
         <p className="flex-grow pr-8">
           Your payments and subscriptions can be managed via Stripe Customer
           Portal. All your payments are processed by Stripe and we do not store
