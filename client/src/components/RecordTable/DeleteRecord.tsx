@@ -17,7 +17,7 @@ const DeleteRecord = (record: TRecord) => {
   const [open, setOpen] = useState(false);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>Delete</DialogTrigger>
+      <DialogTrigger className="px-4 py-2">Delete</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="pb-2">Are you absolutely sure?</DialogTitle>
@@ -28,13 +28,15 @@ const DeleteRecord = (record: TRecord) => {
           </DialogDescription>
           <div className="pt-6 flex flex-col w-full gap-3 text-gray-400">
             <span className="text-sm">
-              Enter <span className="font-mono">`{record.name}`</span> to delete
-              the record:{" "}
+              Enter{" "}
+              <span className="font-mono select-none">`{record.name}`</span> to
+              delete the record:{" "}
             </span>
             <Input
               className="text-sm"
               value={inp}
               onChange={(e) => setInp(e.target.value)}
+              onPaste={(e) => e.preventDefault()}
             />
           </div>
         </DialogHeader>
@@ -45,7 +47,7 @@ const DeleteRecord = (record: TRecord) => {
               variant={"destructive"}
               disabled={inp !== record.name}
               onClick={() => {
-                console.log("Delete", record.id);
+                console.log("Delete", record._id);
                 setOpen(false);
               }}
             >

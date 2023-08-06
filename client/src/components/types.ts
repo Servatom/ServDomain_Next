@@ -34,7 +34,7 @@ export type TStatus = {
 };
 
 export type TRecord = {
-  id: string;
+  _id: string;
   type: "A" | "CNAME";
   name: string;
   content: string;

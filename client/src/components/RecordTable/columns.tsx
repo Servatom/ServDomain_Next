@@ -67,11 +67,11 @@ export const columns: ColumnDef<TRecord>[] = [
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const id = row.original.id;
+      const id = row.original._id;
       return (
         <div className="flex flex-row w-24 justify-start gap-2 font-semibold">
           <button
-            className="text-xs text-gray-300 hover:text-gray-500 -ml-4 px-4 py-2 focus:outline-none"
+            className="text-xs text-gray-300 hover:text-gray-500 -ml-4 focus:outline-none"
             onClick={() => {
               console.log("Edit", id);
             }}
@@ -79,7 +79,7 @@ export const columns: ColumnDef<TRecord>[] = [
             <UpdateRecord {...row.original} />
           </button>
           <button
-            className="text-xs text-gray-300 hover:text-gray-500 px-4 py-2 focus:outline-none ml-2"
+            className="text-xs text-gray-300 hover:text-gray-500 focus:outline-none ml-2"
             onClick={() => {
               console.log("Delete", id);
             }}
