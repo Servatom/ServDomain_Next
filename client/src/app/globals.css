@@ -128,6 +128,13 @@ body {
   background-position: top;
 }
 
+.landing {
+  background-image: url(../assets/media/VectorGrid.svg);
+  background-size: 95%;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -136,4 +143,11 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: rgb(225, 225, 225) !important;
   /* Cursor color  */
   caret-color: rgb(225, 225, 225);
+}
+
+@layer components {
+  .glowText {
+    /* text-shadow: 0 0 20px rgba(234, 234, 234, 0.291);
+    transition: all 0.3s ease-in-out; */
+  }
 }

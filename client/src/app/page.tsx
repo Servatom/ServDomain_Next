@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Landing() {
   return (
-    <div className="w-full h-full min-h-screen flex flex-col text-gray-300 items-center px-12 sm:px-28 lg:px-40">
+    <div className="w-full h-full min-h-screen flex flex-col text-gray-300 items-center px-12 sm:px-28 lg:px-40 landing">
       <Hero />
       <CheckForm className="mt-12" />
       <Callout className="my-12 mb-12">
@@ -27,11 +27,18 @@ export default function Landing() {
           Support
         </Link>
       </div>
-      <span className="pb-6 opacity-50 text-xs">
+      <span className="pb-2 opacity-50 text-xs">
         Born at{" "}
-        <a target="_blank" href="https://github.com/servatom">
+        <a
+          target="_blank"
+          href="https://github.com/servatom"
+          className="border-b border-spacing-4 border-purple-400"
+        >
           Servatom
         </a>
+      </span>
+      <span className="pb-6 opacity-50 text-xs">
+        {/* copyright */}© 2023 Servdomain. All rights reserved.
       </span>
     </div>
   );

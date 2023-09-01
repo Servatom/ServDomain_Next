@@ -4,6 +4,7 @@ import AddForm from "@/components/Plan/AddForm";
 import RecordsTable from "@/components/RecordTable/RecordTable";
 import Feature from "@/components/common/Feature";
 import { features, plans } from "@/config";
+import AuthContext from "@/store/auth-context";
 import { TPlanName } from "@/types/types";
 import { useRouter } from "next/navigation";
 import { Suspense, useContext, useEffect } from "react";
@@ -16,6 +17,7 @@ interface PageProps {
 
 const PlanPage: React.FC<PageProps> = ({ params }) => {
   const router = useRouter();
+  const authCtx = useContext(AuthContext);
 
   const validPlans = ["personal", "student", "annual"];
   let planTitle = params.plan + " Plan";
@@ -23,9 +25,13 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
 
   useEffect(() => {
     if (!validPlans.includes(params.plan)) {
-      router.push("/404");
+      router.replace("/404");
     }
-  }, []);
+
+    if (!authCtx.isLoggedIn) {
+      router.replace("/login?redirect=/plan/" + params.plan);
+    }
+  }, [params.plan]);
 
   let plan = plans.find((plan) => plan.name.toLowerCase() === params.plan);
   if (!plan) {

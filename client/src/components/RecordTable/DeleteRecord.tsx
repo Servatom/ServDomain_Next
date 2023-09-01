@@ -22,9 +22,9 @@ const DeleteRecord = (record: TRecord) => {
         <DialogHeader>
           <DialogTitle className="pb-2">Are you absolutely sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete this
-            record. In case of an ongoing plan, the plan will be cancelled and
-            no money would be refunded.
+            This action cannot be undone. This will permanently mark this record
+            as expired and would make it unreserved. In case of an ongoing plan,
+            the plan will be cancelled and no money would be refunded.
           </DialogDescription>
           <div className="pt-6 flex flex-col w-full gap-3 text-gray-400">
             <span className="text-sm">
