@@ -21,6 +21,16 @@ export default function RootLayout({
           rel="icon"
           href="https://servatom.com/servatom-logo-rounded.png"
         />
+        <meta name="theme-color" content="#000000" />
+        <meta name="og:title" content={"Servdomain."} />
+        <meta
+          name="og:image"
+          content={"https://cdn.servatom.com/Servdomain/Thumbnail.png"}
+        />
+        <meta
+          name="og:description"
+          content={"Made subdomain lending possible."}
+        />
       </head>
       <body>
         <AuthContextProvider>
