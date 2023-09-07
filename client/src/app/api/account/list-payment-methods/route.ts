@@ -11,6 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  if (!token) return redirect("/login");
   const user: TUser = await axiosInstance
     .get("/user", {
       headers: {
