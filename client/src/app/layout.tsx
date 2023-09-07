@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "servdomain.",
-  description: "Made subdomain lending possible.",
+  description: "Subdomain lending made possible.",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
         />
         <meta
           name="og:description"
-          content={"Made subdomain lending possible."}
+          content={"Subdomain lending made possible."}
         />
       </head>
       <body>
