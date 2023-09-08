@@ -6,10 +6,10 @@ import { IoArrowBackOutline } from "react-icons/io5";
 export default function TnC() {
   const router = useRouter();
   return (
-    <div className="flex flex-col items-start p-12">
-      <h1 className="font-semibold text-3xl my-3 text-gray-300 flex flex-row items-center">
+    <div className="flex flex-col items-start p-12 text-gray-300">
+      <h1 className="font-semibold text-3xl my-3 flex flex-row items-center">
         <IoArrowBackOutline
-          className="text-gray-300 mr-6 cursor-pointer hidden sm:block"
+          className="mr-6 cursor-pointer hidden sm:block"
           onClick={() => {
             router.back();
           }}

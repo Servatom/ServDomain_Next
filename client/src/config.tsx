@@ -91,8 +91,8 @@ export const statusVariantClasses = {
 };
 
 export const Terms = [
-  "ServDomain is a propietary product of Servatom and is not affiliated with any other company.",
-  "ServDomain collects your phone number for authentication purposes only. We do not share your phone number with any third party.",
+  "Servatom is a propietary product of Servatom and is not affiliated with any other company.",
+  "Servatom collects your phone number for authentication purposes only. We do not share your phone number with any third party.",
   <span key={3}>
     ServDomain collects your email address for account management and
     communication purposes only. Your email id is used to create your Stripe
@@ -115,4 +115,12 @@ export const Terms = [
   "Servatom reserves the right to suspend or terminate your account at any time, if deemed inappropriate or suspicious by the company.",
   "Servatom reserves the right to change the terms and conditions at any time without any prior notice. However, Servatom will ensure prevention of nonsensical monetary losses to its users.",
   "Servatom assumes that you have read and understood the terms and conditions before using the product.",
+];
+
+export const CancellationTerms = [
+  "Cancellation of a subscription is allowed only if the subscription is active.",
+  "Processing of cancellation may take upto 2 days.",
+  "Cancellation of a subscription will result in the termination of the subdomain with effect from the date of processing of cancellation.",
+  "No refunds will be issued for the remaining period of the subscription.",
+  "A terminated subdomain cannot be restored and must be bought again subject to availability.",
 ];

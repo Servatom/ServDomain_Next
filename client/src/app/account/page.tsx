@@ -106,6 +106,16 @@ const Account = () => {
           <RecordsTable />
         </Suspense>
       </div>
+      <span className="text-xs pb-8 text-gray-400">
+        Subscriptions can be renewed manually in case auto-deduct fails, within
+        5 days after expiry. The subdomain will remain usable for the buffer of
+        5 days. Post 5 days, the subdomain will be terminated on failure of
+        renewal of the subscription. Check out the cancellation policy on the{" "}
+        <a href="/tnc" className="text-pink-500 underline underline-offset-4">
+          Terms and Conditions
+        </a>{" "}
+        page.
+      </span>
     </div>
   );
 };
