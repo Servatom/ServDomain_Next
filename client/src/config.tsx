@@ -108,6 +108,8 @@ export const Terms = [
     </a>{" "}
   </span>,
   "Servatom cares about your privacy and will not share your data with any third party apart from what has been already specified.",
+  "It may take 2-3 days to resolve payments and set subdomain status as active. Expiry date is set with respect to date of activation of the record.",
+  "Subscriptions can be renewed manually in case auto-deduct fails, within 5 days after expiry. The subdomain will remain usable for the buffer of 5 days. Post 5 days, the subdomain will be terminated on failure of renewal of the subscription.",
   "Servatom reserves the right to block any subdomain that is required for internal use by the company.",
   "Servatom reserves the right to block any subdomain that is deemed inappropriate by the company.",
   "Servatom reserves the right to monitor the usage of the subdomain and may suspend or terminate the account if the usage is deemed inappropriate by the company.",
