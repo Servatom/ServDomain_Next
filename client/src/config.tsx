@@ -92,7 +92,22 @@ export const statusVariantClasses = {
 
 export const Terms = [
   "ServDomain is a propietary product of Servatom and is not affiliated with any other company.",
-  "Servatom cares about your privacy and will not share your data with any third party.",
+  "ServDomain collects your phone number for authentication purposes only. We do not share your phone number with any third party.",
+  <span key={3}>
+    ServDomain collects your email address for account management and
+    communication purposes only. Your email id is used to create your Stripe
+    Customer Account for managing subscriptions. You can read Stripe&apos;s
+    Privacy Policy{" "}
+    <a
+      href="https://stripe.com/in/privacy"
+      target="_blank"
+      rel="noreferrer"
+      className="text-pink-500 underline underline-offset-4"
+    >
+      here.
+    </a>{" "}
+  </span>,
+  "Servatom cares about your privacy and will not share your data with any third party apart from what has been already specified.",
   "Servatom reserves the right to block any subdomain that is required for internal use by the company.",
   "Servatom reserves the right to block any subdomain that is deemed inappropriate by the company.",
   "Servatom reserves the right to monitor the usage of the subdomain and may suspend or terminate the account if the usage is deemed inappropriate by the company.",
