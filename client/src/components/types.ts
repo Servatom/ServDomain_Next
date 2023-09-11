@@ -40,5 +40,5 @@ export type TRecord = {
   content: string;
   expiry: string;
   plan: TPlanName;
-  status: "active" | "processing" | "expired";
+  status: "active" | "processing" | "expired" | "cancelled" | "overdue";
 };

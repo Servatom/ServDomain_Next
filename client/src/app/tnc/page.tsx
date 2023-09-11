@@ -9,7 +9,7 @@ export default function TnC() {
     <div className="flex flex-col items-start p-12 text-gray-300">
       <h1 className="font-semibold text-3xl my-3 flex flex-row items-center">
         <IoArrowBackOutline
-          className="text-gray-300 mr-6 cursor-pointer"
+          className="mr-6 cursor-pointer hidden sm:block"
           onClick={() => {
             router.back();
           }}

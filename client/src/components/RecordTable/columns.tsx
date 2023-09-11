@@ -4,6 +4,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { TRecord } from "../types";
 import UpdateRecord from "./UpdateRecord";
 import DeleteRecord from "./DeleteRecord";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+import { Info } from "lucide-react";
 
 export const columns: ColumnDef<TRecord>[] = [
   {
@@ -50,6 +57,7 @@ export const columns: ColumnDef<TRecord>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.original.status;
+      const expiry = row.original.expiry;
       const statusColour =
         status === "active"
           ? "text-green-300"
@@ -57,8 +65,33 @@ export const columns: ColumnDef<TRecord>[] = [
           ? "text-yellow-200"
           : "text-red-400";
       return (
-        <span className={`${statusColour}`}>
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+        <span className={`${statusColour} flex flex-row items-center gap-2`}>
+          <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+          {status === "overdue" && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info size={16} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    This record will become unusable in{" "}
+                    {(
+                      ((new Date(expiry).getTime() - new Date().getTime()) /
+                        (1000 * 60 * 60 * 24) +
+                        5) as number
+                    ).toFixed(0)}{" "}
+                    day(s). Please make sure to make a payment before that by
+                    clicking the &quot;Manage Subscriptions&quot; button.
+                    <br></br>
+                    <br />
+                    Failure to do so will result in the record being expired and
+                    unusable.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </span>
       );
     },
