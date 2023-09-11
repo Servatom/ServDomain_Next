@@ -9,8 +9,6 @@ export const metadata: Metadata = {
   description: "Subdomain lending made possible.",
 };
 
-export const runtime = "edge";
-
 export default function RootLayout({
   children,
 }: {
