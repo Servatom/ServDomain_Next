@@ -198,39 +198,45 @@ export default function PaymentForm() {
 
       <form
         onSubmit={onSubmit}
-        className="w-full flex flex-col gap-8 text-white"
+        className={`w-full flex flex-col gap-8 text-white`}
       >
-        <div className="flex flex-col w-full gap-3">
-          <label htmlFor="cc-name">Name on card:</label>
-          <Input
-            id="cc-name"
-            placeholder="John Doe"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            disabled={selectedCard !== null}
-          />
-        </div>
-        <div className="border-b-2 border-slate-800 pb-3">
-          <CardElement
-            onChange={cardErrorHandler}
-            options={{
-              style: {
-                base: {
-                  fontSize: "20px",
-                  color: "#fff",
-                  "::placeholder": {
-                    color: "#a0a0a0",
+        <div
+          className={`w-full flex flex-col gap-8 text-white ${
+            selectedCard !== null ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          <div className="flex flex-col w-full gap-3">
+            <label htmlFor="cc-name">Name on card:</label>
+            <Input
+              id="cc-name"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              disabled={selectedCard !== null}
+            />
+          </div>
+          <div className={`border-b-2 border-slate-800 pb-3`}>
+            <CardElement
+              onChange={cardErrorHandler}
+              options={{
+                style: {
+                  base: {
+                    fontSize: "20px",
+                    color: "#fff",
+                    "::placeholder": {
+                      color: "#a0a0a0",
+                    },
                   },
                 },
-              },
-              hidePostalCode: true,
-              disabled: selectedCard !== null,
-            }}
-          />
+                hidePostalCode: true,
+                disabled: selectedCard !== null,
+              }}
+            />
+          </div>
+          {error.length > 0 && <p className="text-red-500 -mt-5">{error}</p>}
         </div>
-        {error.length > 0 && <p className="text-red-500 -mt-5">{error}</p>}
         <div>
           <input
             type="checkbox"
