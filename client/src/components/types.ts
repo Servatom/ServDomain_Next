@@ -41,4 +41,7 @@ export type TRecord = {
   expiry: string;
   plan: TPlanName;
   status: "active" | "processing" | "expired" | "cancelled" | "overdue";
+  stripeSubscriptionId: string;
+  cloudflareId: string;
+  cloudflareZoneId: string;
 };

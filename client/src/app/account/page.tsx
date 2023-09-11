@@ -51,8 +51,10 @@ const Account = () => {
   return (
     <div className="w-full h-full flex flex-col items-center p-16 max-w-7xl mx-auto">
       <Avatar className="w-24 h-24 mt-8">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage
+          src={`https://api.dicebear.com/7.x/identicon/svg?seed=${authCtx.user?.firebaseUID}`}
+        />
+        <AvatarFallback>PFP</AvatarFallback>
       </Avatar>
       <div className="flex flex-row items-center justify-center gap-4 pt-8 pb-2">
         <h1 className="text-xl font-medium ">{authCtx.user?.phoneNumber}</h1>

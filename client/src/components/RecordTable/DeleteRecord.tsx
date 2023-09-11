@@ -11,10 +11,36 @@ import { Button } from "../ui/button";
 import { TRecord } from "../types";
 import { Input } from "../ui/input";
 import { useRef, useState } from "react";
+import { toast } from "../ui/use-toast";
 
 const DeleteRecord = (record: TRecord) => {
   const [inp, setInp] = useState("");
   const [open, setOpen] = useState(false);
+  const handleDelete = async () => {
+    try {
+      let resp = await fetch(
+        `/api/subscribe?subscriptionId=${record.stripeSubscriptionId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      let data = await resp.json();
+      toast({
+        title: "Subscription cancelled succesfully!",
+        // description: data.message,
+      });
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Something went wrong :/",
+        description: JSON.stringify(err),
+        variant: "destructive",
+      });
+    }
+  };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger className="px-4 py-2">Delete</DialogTrigger>
@@ -23,8 +49,13 @@ const DeleteRecord = (record: TRecord) => {
           <DialogTitle className="pb-2">Are you absolutely sure?</DialogTitle>
           <DialogDescription>
             This action cannot be undone. This will permanently mark this record
-            as expired and would make it unreserved. In case of an ongoing plan,
-            the plan will be cancelled and no money would be refunded.
+            as{" "}
+            <code className="text-xs text-red-400 rounded-sm px-1 bg-red-400 bg-opacity-25 border border-red-400 border-opacity-60">
+              cancelled
+            </code>{" "}
+            and would make it unreserved. In case of an ongoing plan, the plan
+            will be cancelled and no money would be refunded. The same subdomain
+            can be bought all over again subject to availability.
           </DialogDescription>
           <div className="pt-6 flex flex-col w-full gap-3 text-gray-400">
             <span className="text-sm">
@@ -46,8 +77,8 @@ const DeleteRecord = (record: TRecord) => {
               type="submit"
               variant={"destructive"}
               disabled={inp !== record.name}
-              onClick={() => {
-                console.log("Delete", record._id);
+              onClick={async () => {
+                await handleDelete();
                 setOpen(false);
               }}
             >

@@ -101,26 +101,35 @@ export const columns: ColumnDef<TRecord>[] = [
     header: "Actions",
     cell: ({ row }) => {
       const id = row.original._id;
-      return (
-        <div className="flex flex-row w-24 justify-start gap-2 font-semibold">
-          <button
-            className="text-xs text-gray-300 hover:text-gray-500 -ml-4 focus:outline-none"
-            onClick={() => {
-              console.log("Edit", id);
-            }}
-          >
-            <UpdateRecord {...row.original} />
-          </button>
-          <button
-            className="text-xs text-gray-300 hover:text-gray-500 focus:outline-none ml-2"
-            onClick={() => {
-              console.log("Delete", id);
-            }}
-          >
-            <DeleteRecord {...row.original} />
-          </button>
-        </div>
-      );
+      const status = row.original.status;
+      if (status === "active" || status === "overdue") {
+        return (
+          <div className="flex flex-row w-24 justify-start gap-2 font-semibold">
+            <button
+              className="text-xs text-gray-300 hover:text-gray-500 -ml-4 focus:outline-none"
+              onClick={() => {
+                console.log("Edit", id);
+              }}
+            >
+              <UpdateRecord {...row.original} />
+            </button>
+            <button
+              className="text-xs text-gray-300 hover:text-gray-500 focus:outline-none ml-2"
+              onClick={() => {
+                console.log("Delete", id);
+              }}
+            >
+              <DeleteRecord {...row.original} />
+            </button>
+          </div>
+        );
+      } else {
+        return (
+          <div className="flex flex-row w-24 justify-start gap-2 font-semibold opacity-30">
+            -
+          </div>
+        );
+      }
     },
   },
 ];
