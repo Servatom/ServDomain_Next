@@ -1,19 +1,65 @@
 "use client";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import PaymentForm from "@/components/Payment/PaymentForm";
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "@/components/ui/use-toast";
+import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
-export default function Home() {
+const PaymentPage = () => {
+  const query = useSearchParams();
+  const router = useRouter();
+  const plan = query.get("plan");
+  const recordId = query.get("recordId");
+  const subdomain = query.get("name");
+
+  const handleStripePayment = async () => {
+    try {
+      const { data, status } = await axios.post(
+        "/api/payment/create-checkout-session",
+        {
+          data: {
+            plan,
+            recordId,
+            subdomain,
+          },
+        }
+      );
+
+      if (status === 201) {
+        // Redirect to Stripe Checkout
+        const url = data.url;
+        window.location.href = url;
+      }
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Something went wrong!",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+
+      setTimeout(() => {
+        router.replace("/");
+      }, 3000);
+    }
+  };
+
+  useEffect(() => {
+    if (!plan || !recordId) router.push("/");
+
+    handleStripePayment();
+  }, [recordId]);
+
   return (
-    <div className="flex w-full h-full">
-      <Elements stripe={stripePromise}>
-        <PaymentForm />
-      </Elements>
+    <div className="h-screen w-screen flex items-center justify-center flex-col gap-3">
+      <Skeleton className="h-8 w-64 " />
+      <Skeleton className="h-8 w-48 " />
+      <Skeleton className="h-8 w-48 " />
+      <Skeleton className="h-8 w-64 " />
+      <Skeleton className="h-8 w-64 " />
     </div>
   );
-}
+};
+
+export default PaymentPage;
