@@ -20,26 +20,31 @@ export async function POST(req: NextRequest) {
     .then((res) => res.data.data);
 
   if (!user.stripeCustomerId) {
-    return new NextResponse(
-      "No subscriptions found",
-
-      {
-        status: 500,
-      }
-    );
+    return new NextResponse("No subscriptions found", {
+      status: 500,
+    });
   }
 
-  const session = await stripe.billingPortal.sessions.create({
-    customer: user.stripeCustomerId,
-    return_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account`,
-  });
+  try {
+    const session = await stripe.billingPortal.sessions.create({
+      customer: user.stripeCustomerId,
+      return_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account`,
+    });
 
-  return new NextResponse(
-    JSON.stringify({
-      url: session.url,
-    }),
-    {
-      status: 200,
-    }
-  );
+    return new NextResponse(
+      JSON.stringify({
+        url: session.url,
+      }),
+      {
+        status: 200,
+      }
+    );
+  } catch (err) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "Error creating session. " + JSON.stringify(err),
+      }),
+      { status: 500 }
+    );
+  }
 }
