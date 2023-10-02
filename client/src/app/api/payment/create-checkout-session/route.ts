@@ -100,8 +100,8 @@ export async function POST(req: NextRequest) {
         },
       ],
       customer: customerId,
-      success_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account?paymentStatus=success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account?paymentStatus=cancelled`,
+      success_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account?recordId=${recordId}&paymentStatus=success`,
+      cancel_url: `${process.env.NEXT_PUBLIC_ORIGIN}/account?recordId=${recordId}&paymentStatus=cancelled`,
       metadata: {
         recordId,
         plan,
@@ -122,5 +122,45 @@ export async function POST(req: NextRequest) {
     return new NextResponse(error, {
       status: 500,
     });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  // get the recordId from the query params
+  const urlParams = new URL(req.url);
+  console.log({ urlParams });
+  const recordId = urlParams.searchParams.get("recordId") || "x";
+  const token = req.cookies.get("token")?.value;
+
+  try {
+    const resp = await axiosInstance.delete(`/record/incomplete/${recordId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (resp.status !== 200) {
+      let message = resp.data.message;
+      return new NextResponse(
+        JSON.stringify({
+          message: "Error deleting record. " + message,
+        }),
+        { status: 500 }
+      );
+    } else {
+      return new NextResponse(
+        JSON.stringify({
+          message: "Record deleted successfully",
+        }),
+        { status: 200 }
+      );
+    }
+  } catch (err) {
+    return new NextResponse(
+      JSON.stringify({
+        message: "Error deleting record. " + JSON.stringify(err),
+      }),
+      { status: 500 }
+    );
   }
 }

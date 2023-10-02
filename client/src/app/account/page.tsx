@@ -6,17 +6,62 @@ import Loader from "@/components/common/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "@/components/ui/use-toast";
 import AuthContext from "@/store/auth-context";
+import axios from "axios";
 import { ArrowRight, Pencil } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const query = useSearchParams();
+  const recordId = query.get("recordId");
+  const paymentStatus = query.get("paymentStatus");
+
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  const handleIncompletePayment = async (recordId: string) => {
+    const { data, status } = await axios.delete(
+      `/api/payment/create-checkout-session?recordId=${recordId}`
+    );
+    return { data, status };
+  };
+
+  useEffect(() => {
+    if (paymentStatus === "success") {
+      toast({
+        title: "Wuhuu!",
+        description: "Your subscription will be active shortly.",
+      });
+    }
+    if (paymentStatus === "cancelled") {
+      toast({
+        title: "Uh Oh :/",
+        description: "Payment was not completed. Please try again.",
+        variant: "destructive",
+      });
+
+      if (!recordId) return;
+      // make api req to delete record
+      try {
+        handleIncompletePayment(recordId);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // remove query params from url
+
+    if (paymentStatus) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("paymentStatus");
+      url.searchParams.delete("recordId");
+      window.history.replaceState({}, "", url.href);
+    }
+  }, [paymentStatus, recordId]);
   const authCtx = useContext(AuthContext);
   const router = useRouter();
   if (!hydrated) {
