@@ -75,14 +75,10 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const updateEmail = (email: string) => {
-    setUser((prevState) => {
-      if (prevState) {
-        const updatedUser = { ...prevState, email: email };
-        localStorage.setItem("user", JSON.stringify(updatedUser));
-        return updatedUser;
-      }
-      return prevState;
-    });
+    if(!user) return;
+    let updatedUser = { ...user, email: email };
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
   };
 
   const contextValue = {

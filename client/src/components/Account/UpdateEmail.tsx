@@ -25,7 +25,8 @@ const UpdateEmail: React.FC = () => {
       .then(async (res) => {
         if (res.status === 200) {
           const data = await res.json().then((data) => data.data);
-          authCtx.updateEmail(data.email);
+          console.log(data);
+          authCtx.updateEmail(data.user.email);
           toast({
             title: "Email updated successfully!",
           });
