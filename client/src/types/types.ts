@@ -11,7 +11,7 @@ export type TUser = {
 };
 
 export type TPlanName = "personal" | "vercel" | "annual";
-export type TRecordType = "CNAME" | "A";
+export type TRecordType = "CNAME" | "A" | "TXT";
 
 export type TNewRecord = {
     name: string;

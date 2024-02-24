@@ -3,8 +3,9 @@
 import { validateHostname, validateIPv4 } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";
+import { TPlan } from "../types";
 
-const AddForm: React.FC = () => {
+const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
   return (
     <div className="my-12 mx-auto w-full max-w-5xl flex justify-center items-center">
       <Tabs
@@ -18,6 +19,11 @@ const AddForm: React.FC = () => {
           <TabsTrigger value="a" className="text-lg">
             A RECORD
           </TabsTrigger>
+          {["vercel", "annual"].includes(plan.path) && (
+            <TabsTrigger value="txt" className="text-lg">
+              TXT
+            </TabsTrigger>
+          )}
         </TabsList>
         <TabsContent value="cname">
           <InputGroup

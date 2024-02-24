@@ -61,7 +61,7 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
                         {priceFreq}
                     </span>
                 </div>
-                <div className="flex flex-row justify-between items-center max-w-[1024px] w-full ml-16 mt-8">
+                <div className="flex flex-row justify-center gap-6 flex-wrap items-center max-w-[1024px] w-full ml-16 mt-8">
                     {features[params.plan as TPlanName].map(
                         (feature, index) => (
                             <div key={index} className="flex flex-row text-xl">
@@ -72,7 +72,7 @@ const PlanPage: React.FC<PageProps> = ({ params }) => {
                 </div>
             </div>
             {/* <AddForm plan={params.plan} /> */}
-            <AddForm />
+            <AddForm plan={plan} />
             <div className="mt-20 w-full">
                 <h1 className="text-xl font-medium text-center">
                     Your Records

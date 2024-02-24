@@ -42,12 +42,12 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
             .then((res) => {
               if (res.isAvailable) {
                 setStatus({
-                  text: "Subdomain is available",
+                  text: "✓ subdomain is available",
                   variant: "success",
                 });
               } else {
                 setStatus({
-                  text: "Subdomain is not available",
+                  text: "✕ subdomain is not available",
                   variant: "error",
                 });
               }
