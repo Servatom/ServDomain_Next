@@ -4,17 +4,15 @@ import { TPlanName } from "./types/types";
 export const features: {
     [key in TPlanName]: string[];
 } = {
-    personal: ["CNAME Record", "A Record", "Billed Monthly"],
+    personal: ["CNAME / A Record", "Billed Monthly"],
     vercel: [
-        "CNAME Record",
-        "A Record",
+        "CNAME / A Record",
         "TXT Record",
         "Seemless integration with Vercel",
         "Billed Monthly",
     ],
     annual: [
-        "CNAME Record",
-        "A Record",
+        "CNAME / A Record",
         "TXT Record",
         "Hassle-free for an year",
     ],

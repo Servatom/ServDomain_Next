@@ -1,6 +1,6 @@
 "use client";
 
-import { validateHostname, validateIPv4 } from "@/lib/utils";
+import { validateHostname, validateIPv4, validateTxtRecord } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";
 import { TPlan } from "../types";
@@ -41,6 +41,16 @@ const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
             contentValidationHandler={validateIPv4}
           />
         </TabsContent>
+        {["vercel", "annual"].includes(plan.path) && (
+          <TabsContent value="txt" className="w-full max-w-lg">
+            <InputGroup
+              recordType="TXT"
+              contentType="text"
+              contentPlaceholder="vc-domain-verify=subdomain.domain.xyz,hvwivekf87293792"
+              contentValidationHandler={validateTxtRecord}
+            />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   );

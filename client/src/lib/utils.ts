@@ -42,3 +42,8 @@ export const validateIPv4 = (ip: string) => {
 
   return false;
 };
+
+export const validateTxtRecord = (txt: string) => {
+  const regex = /^[a-zA-Z0-9]+=[a-zA-Z0-9]+$/;
+  return regex.test(txt);
+};
