@@ -34,6 +34,7 @@ const UpdateRecord = (record: TRecord) => {
   const contentType = {
     CNAME: "Hostname",
     A: "IPv4 Address",
+    TXT: "Text",
   };
 
   useEffect(() => {
@@ -122,6 +123,7 @@ const UpdateRecord = (record: TRecord) => {
               <SelectContent>
                 <SelectItem value="CNAME">CNAME</SelectItem>
                 <SelectItem value="A">A</SelectItem>
+                <SelectItem value="TXT">TXT</SelectItem>
               </SelectContent>
             </Select>
           </div>

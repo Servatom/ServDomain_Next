@@ -42,7 +42,8 @@ export default function Landing() {
         </a>
       </span>
       <span className="pb-6 opacity-50 text-xs">
-        {/* copyright */}© 2023 Servdomain. All rights reserved.
+        {/* copyright */}© {new Date().getFullYear()} Servdomain. All rights
+        reserved.
       </span>
     </div>
   );

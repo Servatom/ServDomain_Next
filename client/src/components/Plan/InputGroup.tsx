@@ -141,6 +141,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
           content: content,
           type: recordType,
           plan: plan,
+          domainId: "6605cb56757e09de775d7632", //TODO: Replace with actual domainId
         }),
       });
 

@@ -4,6 +4,14 @@ import RecordsTable from "@/components/RecordTable/RecordTable";
 import Button from "@/components/common/Button";
 import Loader from "@/components/common/Loader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import AuthContext from "@/store/auth-context";
 import axios from "axios";
@@ -145,6 +153,37 @@ const Account = () => {
             Manage Subscriptions
           </Button>
         </div>
+      </div>
+      <div className="mt-16 p-8 w-full flex flex-row gap-8">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>CNAME Records</CardTitle>
+            <CardDescription>3/3 used</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>No more records to add</p>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>A Records</CardTitle>
+            <CardDescription>2/2 used</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>No more records to add</p>
+          </CardContent>
+        </Card>
+
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>TXT Records</CardTitle>
+            <CardDescription>1/2 used</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button className="w-full">Add TXT Record</Button>
+          </CardContent>
+        </Card>
       </div>
       <div className="mt-16 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>

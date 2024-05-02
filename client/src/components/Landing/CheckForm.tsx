@@ -79,7 +79,7 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
           onSearch={setSubdomain}
           enablePlaceholderAnimation={true}
         />
-        <span className="text-2xl font-semibold ml-1">.servatom.com</span>
+        <span className="text-2xl font-semibold ml-1">.servatom.xyz</span>
       </form>
       {status && (
         <div className="flex flex-row justify-center items-center text-xs font-normal mt-5 mx-auto">

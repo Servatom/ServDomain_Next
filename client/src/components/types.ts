@@ -1,4 +1,4 @@
-import { TPlanName } from "@/types/types";
+import { TPlanName, TRecordType } from "@/types/types";
 import { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
 export interface IDynamicInputProps extends HTMLAttributes<HTMLInputElement> {
@@ -36,7 +36,7 @@ export type TStatus = {
 
 export type TRecord = {
     _id: string;
-    type: "A" | "CNAME";
+    type: TRecordType;
     name: string;
     content: string;
     expiry: string;
