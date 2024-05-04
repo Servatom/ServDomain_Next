@@ -3,7 +3,7 @@
 import { validateHostname, validateIPv4, validateTxtRecord } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";
-import { TPlan } from "../types";
+import { TPlan } from "@/types/types";
 
 const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
   return (

@@ -3,36 +3,25 @@ import { HTMLAttributes, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
 import axios from "@/axios";
-import { TStatus } from "../types";
 import { statusVariantClasses } from "@/config";
+import { TStatus } from "@/types/types";
+import { STATUS_TEXTS } from "@/lib/config";
 
 const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const { className } = props;
   const [subdomain, setSubdomain] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [status, setStatus] = useState<TStatus>({
-    variant: "neutral",
-    text: "Enter value to check availability",
-  });
+  const [status, setStatus] = useState<TStatus>(STATUS_TEXTS.EMPTY);
 
   useEffect(() => {
     setIsLoading(false);
     if (subdomain.length === 0) {
-      setStatus({
-        text: "Enter value to check availability",
-        variant: "neutral",
-      });
+      setStatus(STATUS_TEXTS.EMPTY);
     } else if (subdomain.length < 3) {
-      setStatus({
-        text: "Subdomain must be atleast 3 characters long",
-        variant: "error",
-      });
+      setStatus(STATUS_TEXTS.LENGTH);
     } else {
       setIsLoading(true);
-      setStatus({
-        text: "Checking availability",
-        variant: "neutral",
-      });
+      setStatus(STATUS_TEXTS.LOADING);
       const timeoutId = setTimeout(() => {
         if (subdomain.length >= 3) {
           fetch(`/api/subdomain?subdomain=${subdomain}`)
@@ -41,23 +30,14 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
             })
             .then((res) => {
               if (res.isAvailable) {
-                setStatus({
-                  text: "✓ subdomain is available",
-                  variant: "success",
-                });
+                setStatus(STATUS_TEXTS.AVAILABLE);
               } else {
-                setStatus({
-                  text: "✕ subdomain is not available",
-                  variant: "error",
-                });
+                setStatus(STATUS_TEXTS.UNAVAILABLE);
               }
               setIsLoading(false);
             })
             .catch((err) => {
-              setStatus({
-                text: "Something went wrong",
-                variant: "error",
-              });
+              setStatus(STATUS_TEXTS.ERROR);
               setIsLoading(false);
             });
         }

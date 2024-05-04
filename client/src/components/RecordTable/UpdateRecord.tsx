@@ -16,11 +16,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useContext, useEffect, useState } from "react";
-import { TRecord } from "../types";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { validateHostname, validateIPv4 } from "@/lib/utils";
-import { TRecordType } from "@/types/types";
+import { TRecord, TRecordType } from "@/types/types";
 import { toast } from "../ui/use-toast";
 import axiosInstance from "@/axios";
 import AuthContext from "@/store/auth-context";
