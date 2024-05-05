@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { TRecord } from "../types";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import { TRecord } from "@/types/types";
 
 async function getData(): Promise<TRecord[]> {
   // Fetch data from your API here.

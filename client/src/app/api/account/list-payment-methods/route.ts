@@ -1,4 +1,4 @@
-import axiosInstance from "@/axios";
+import { axiosBackendInstance } from "@/axios";
 import { TUser } from "@/types/types";
 import { redirect } from "next/navigation";
 import { NextResponse, NextRequest } from "next/server";
@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
   if (!token) return redirect("/login");
-  const user: TUser = await axiosInstance
+  const user: TUser = await axiosBackendInstance
     .get("/user", {
       headers: {
         Authorization: `Bearer ${token}`,

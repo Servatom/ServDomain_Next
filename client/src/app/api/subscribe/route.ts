@@ -1,4 +1,4 @@
-import axiosInstance from "@/axios";
+import { axiosBackendInstance } from "@/axios";
 import { products } from "@/config";
 import { setCookie } from "@/lib/actions.server";
 import { TUser } from "@/types/types";
@@ -18,11 +18,14 @@ export async function DELETE(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   try {
-    const cf_resp = await axiosInstance.delete(`/record/${subscriptionId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const cf_resp = await axiosBackendInstance.delete(
+      `/record/${subscriptionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (cf_resp.status !== 200) {
       let message = cf_resp.data.message;

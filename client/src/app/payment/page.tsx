@@ -1,7 +1,7 @@
 "use client";
+import { axiosFrontendInstance } from "@/axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/use-toast";
-import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,8 +14,8 @@ const PaymentPage = () => {
 
   const handleStripePayment = async () => {
     try {
-      const { data, status } = await axios.post(
-        "/api/payment/create-checkout-session",
+      const { data, status } = await axiosFrontendInstance.post(
+        "/payment/create-checkout-session",
         {
           data: {
             plan,

@@ -1,8 +1,7 @@
 "use client";
-import { HTMLAttributes, useEffect, useState } from "react";
+import { HTMLAttributes, use, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
-import axios from "@/axios";
 import { statusVariantClasses } from "@/config";
 import { TStatus } from "@/types/types";
 import { STATUS_TEXTS } from "@/lib/config";
@@ -45,6 +44,12 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
       }
     }
   }, [subdomain, resp, isError]);
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      refetchCheck();
+    }
+  }, [debouncedSearch, refetchCheck]);
 
   return (
     <div className="flex flex-col m-4 p-4">

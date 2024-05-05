@@ -1,9 +1,9 @@
-import axiosInstance from "@/axios";
+import { axiosBackendInstance } from "@/axios";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-  const records = await axiosInstance
+  const records = await axiosBackendInstance
     .get("/record", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
 
   try {
-    const result = await axiosInstance
+    const result = await axiosBackendInstance
       .post("/record", body, {
         headers: {
           Authorization: `Bearer ${token}`,

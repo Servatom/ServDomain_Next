@@ -27,4 +27,12 @@ export const STATUS_TEXTS: {
     variant: "error",
     text: "Subdomain must be atleast 3 characters long",
   },
+  CHECK: {
+    variant: "neutral",
+    text: "Check availability",
+  },
+  INVALID: {
+    variant: "error",
+    text: "Invalid subdomain",
+  },
 };

@@ -1,4 +1,4 @@
-import axiosInstance from "@/axios";
+import { axiosBackendInstance } from "@/axios";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   const { email } = body;
   const token = req.cookies.get("token")?.value;
 
-  const result = await axiosInstance
+  const result = await axiosBackendInstance
     .patch(
       "/user/update",
       {

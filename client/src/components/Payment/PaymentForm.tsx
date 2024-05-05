@@ -1,7 +1,7 @@
 "use client";
 
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "../ui/use-toast";
 import Button from "../common/Button";
@@ -9,10 +9,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import AuthContext from "@/store/auth-context";
 import { Input } from "../ui/input";
 import { paymentPagePlans } from "@/config";
-import { TPlanFrequency } from "../types";
 import { TPlanName } from "@/types/types";
 import { StripeCardElementChangeEvent } from "@stripe/stripe-js";
 import Loader from "../common/Loader";
+import { axiosFrontendInstance } from "@/axios";
 
 export default function PaymentForm() {
   const router = useRouter();
@@ -93,7 +93,7 @@ export default function PaymentForm() {
         paymentMethodId = selectedCard;
       }
       console.log(paymentMethodId);
-      const { data, status } = await axios.post("/api/subscribe", {
+      const { data, status } = await axiosFrontendInstance.post("/subscribe", {
         data: {
           plan,
           recordId,

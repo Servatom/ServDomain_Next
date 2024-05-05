@@ -10,9 +10,9 @@ import AuthContext from "@/store/auth-context";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
-import axios from "@/axios";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { TUser } from "@/types/types";
+import { axiosBackendInstance } from "@/axios";
 
 const setServerLogin = async (user: TUser) => {
   return await fetch("/api/login", {
@@ -111,7 +111,7 @@ export default function Login() {
         // User signed in via firebase successfully.
 
         const user = result.user;
-        axios
+        axiosBackendInstance
           .post<{
             data: TUser;
             message: string;

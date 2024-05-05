@@ -5,7 +5,8 @@ const useCheckSubdomainQuery = (searchQuery: string) =>
   useQuery({
     queryKey: ["subdomain", "check", searchQuery],
     queryFn: () => subdomainApi.checkSubdomain(searchQuery),
-    enabled: searchQuery.length >= 3,
+    enabled: false,
+    cacheTime: 6000,
   });
 
 export { useCheckSubdomainQuery };

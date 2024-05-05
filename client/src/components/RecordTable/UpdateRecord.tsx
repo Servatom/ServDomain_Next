@@ -21,8 +21,8 @@ import { Button } from "../ui/button";
 import { validateHostname, validateIPv4 } from "@/lib/utils";
 import { TRecord, TRecordType } from "@/types/types";
 import { toast } from "../ui/use-toast";
-import axiosInstance from "@/axios";
 import AuthContext from "@/store/auth-context";
+import { axiosBackendInstance } from "@/axios";
 
 const UpdateRecord = (record: TRecord) => {
   const [content, setContent] = useState(record.content);
@@ -63,7 +63,7 @@ const UpdateRecord = (record: TRecord) => {
     }
 
     try {
-      const updateRecord = await axiosInstance
+      const updateRecord = await axiosBackendInstance
         .patch(
           `/record/${record._id}`,
           {

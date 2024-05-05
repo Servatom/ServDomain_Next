@@ -1,5 +1,6 @@
 "use client";
 
+import { axiosFrontendInstance } from "@/axios";
 import RecordsTable from "@/components/RecordTable/RecordTable";
 import Button from "@/components/common/Button";
 import Loader from "@/components/common/Loader";
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import AuthContext from "@/store/auth-context";
-import axios from "axios";
 import { ArrowRight, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -32,8 +32,8 @@ const Account = () => {
   }, []);
 
   const handleIncompletePayment = async (recordId: string) => {
-    const { data, status } = await axios.delete(
-      `/api/payment/create-checkout-session?recordId=${recordId}`
+    const { data, status } = await axiosFrontendInstance.delete(
+      `/payment/create-checkout-session?recordId=${recordId}`
     );
     return { data, status };
   };

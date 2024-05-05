@@ -1,14 +1,16 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { TStatus } from "../types";
 import { statusVariantClasses } from "@/config";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";
-import { TRecordType } from "@/types/types";
+import { TRecordType, TStatus } from "@/types/types";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
 import { Textarea } from "../ui/textarea";
+import { useDebounce } from "@/lib/hooks/debounce";
+import { STATUS_TEXTS } from "@/lib/config";
+import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";
 
 export type TContentType = "hostname" | "IPv4 address" | "text";
 
@@ -27,12 +29,13 @@ const InputGroup: React.FC<IInputGroupProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+
   const [subdomain, setSubdomain] = useState<string>("");
+  const debouncedSearch = useDebounce(subdomain, 200);
   const [content, setContent] = useState<string>("");
-  const [subdomainStatus, setSubdomainStatus] = useState<TStatus>({
-    variant: "neutral",
-    text: "Check availability",
-  });
+  const [subdomainStatus, setSubdomainStatus] = useState<TStatus>(
+    STATUS_TEXTS.CHECK
+  );
   const [contentStatus, setContentStatus] = useState<TStatus>({
     variant: "neutral",
     text: "Enter a valid " + contentType,
@@ -40,43 +43,58 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInputValid, setIsInputValid] = useState<boolean>(false);
 
+  const {
+    data: resp,
+    refetch: refetchCheck,
+    isError,
+  } = useCheckSubdomainQuery(debouncedSearch);
+
   const validateInputs = async () => {
     let isInputValid = true;
     setIsInputValid(false);
     setIsLoading(true);
 
     if (!validateSubdomain(subdomain)) {
-      setSubdomainStatus({
-        text: "Invalid subdomain",
-        variant: "error",
-      });
+      setSubdomainStatus(STATUS_TEXTS.INVALID);
       isInputValid = false;
     } else {
-      await fetch(`/api/subdomain?subdomain=${subdomain}`)
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          if (res.isAvailable) {
-            setSubdomainStatus({
-              text: "Subdomain available",
-              variant: "success",
-            });
-          } else {
-            setSubdomainStatus({
-              text: "Subdomain not available",
-              variant: "error",
-            });
-            isInputValid = false;
-          }
-        })
-        .catch((err) => {
-          setSubdomainStatus({
-            text: "Something went wrong",
-            variant: "error",
-          });
+      // await fetch(`/api/subdomain?subdomain=${subdomain}`)
+      //   .then((res) => {
+      //     return res.json();
+      //   })
+      //   .then((res) => {
+      //     if (res.isAvailable) {
+      //       setSubdomainStatus({
+      //         text: "Subdomain available",
+      //         variant: "success",
+      //       });
+      //     } else {
+      //       setSubdomainStatus({
+      //         text: "Subdomain not available",
+      //         variant: "error",
+      //       });
+      //       isInputValid = false;
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     setSubdomainStatus({
+      //       text: "Something went wrong",
+      //       variant: "error",
+      //     });
+      //     isInputValid = false;
+      //   });
+      if (isError) {
+        setSubdomainStatus(STATUS_TEXTS.ERROR);
+        isInputValid = false;
+      }
+      if (resp) {
+        if (resp.isAvailable) {
+          setSubdomainStatus(STATUS_TEXTS.AVAILABLE);
+        } else {
+          setSubdomainStatus(STATUS_TEXTS.UNAVAILABLE);
           isInputValid = false;
-        });
+        }
+      }
     }
 
     if (!contentValidationHandler(content)) {
@@ -128,6 +146,12 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   useEffect(() => {
     setIsInputValid(false);
   }, [subdomain, content]);
+
+  useEffect(() => {
+    if (debouncedSearch) {
+      refetchCheck();
+    }
+  }, [debouncedSearch, refetchCheck]);
 
   const addRecord = async () => {
     setIsLoading(true);
