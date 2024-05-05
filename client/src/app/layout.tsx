@@ -1,8 +1,6 @@
-import { AuthContextProvider } from "@/store/auth-context";
 import "./globals.css";
 import type { Metadata } from "next";
-import LoginIcon from "@/components/LoginIcon";
-import { Toaster } from "@/components/ui/toaster";
+import AppProvider from "@/components/AppProvider";
 
 export const metadata: Metadata = {
   title: "servdomain.",
@@ -33,11 +31,7 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AuthContextProvider>
-          <LoginIcon />
-          <Toaster />
-          {children}
-        </AuthContextProvider>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );
