@@ -8,10 +8,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { TRecord } from "../types";
 import { Input } from "../ui/input";
 import { useRef, useState } from "react";
 import { toast } from "../ui/use-toast";
+import { TRecord } from "@/types/types";
 
 const DeleteRecord = (record: TRecord) => {
   const [inp, setInp] = useState("");

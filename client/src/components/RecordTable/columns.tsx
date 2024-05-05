@@ -1,7 +1,6 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { TRecord } from "../types";
 import UpdateRecord from "./UpdateRecord";
 import DeleteRecord from "./DeleteRecord";
 import {
@@ -11,6 +10,7 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { Info } from "lucide-react";
+import { TRecord } from "@/types/types";
 
 export const columns: ColumnDef<TRecord>[] = [
   {
