@@ -13,7 +13,7 @@ export const STATUS_TEXTS: {
   },
   ERROR: {
     variant: "error",
-    text: "Something went wrong",
+    text: "⚠ Something went wrong",
   },
   LOADING: {
     variant: "neutral",

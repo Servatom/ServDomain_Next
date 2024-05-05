@@ -6,12 +6,20 @@ import axios from "@/axios";
 import { statusVariantClasses } from "@/config";
 import { TStatus } from "@/types/types";
 import { STATUS_TEXTS } from "@/lib/config";
+import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";
+import { useDebounce } from "@/lib/hooks/debounce";
 
 const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const { className } = props;
   const [subdomain, setSubdomain] = useState<string>("");
+  const debouncedSearch = useDebounce(subdomain, 1000);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<TStatus>(STATUS_TEXTS.EMPTY);
+  const {
+    data: resp,
+    refetch: refetchCheck,
+    isError,
+  } = useCheckSubdomainQuery(debouncedSearch);
 
   useEffect(() => {
     setIsLoading(false);
@@ -22,29 +30,21 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
     } else {
       setIsLoading(true);
       setStatus(STATUS_TEXTS.LOADING);
-      const timeoutId = setTimeout(() => {
-        if (subdomain.length >= 3) {
-          fetch(`/api/subdomain?subdomain=${subdomain}`)
-            .then((res) => {
-              return res.json();
-            })
-            .then((res) => {
-              if (res.isAvailable) {
-                setStatus(STATUS_TEXTS.AVAILABLE);
-              } else {
-                setStatus(STATUS_TEXTS.UNAVAILABLE);
-              }
-              setIsLoading(false);
-            })
-            .catch((err) => {
-              setStatus(STATUS_TEXTS.ERROR);
-              setIsLoading(false);
-            });
+
+      if (isError) {
+        setStatus(STATUS_TEXTS.ERROR);
+        setIsLoading(false);
+      }
+      if (resp) {
+        if (resp.isAvailable) {
+          setStatus(STATUS_TEXTS.AVAILABLE);
+        } else {
+          setStatus(STATUS_TEXTS.UNAVAILABLE);
         }
-      }, 1000);
-      return () => clearTimeout(timeoutId);
+        setIsLoading(false);
+      }
     }
-  }, [subdomain]);
+  }, [subdomain, resp, isError]);
 
   return (
     <div className="flex flex-col m-4 p-4">
