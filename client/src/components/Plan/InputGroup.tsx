@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { statusVariantClasses } from "@/config";
 import Button from "../common/Button";
@@ -11,6 +11,7 @@ import { Textarea } from "../ui/textarea";
 import { useDebounce } from "@/lib/hooks/debounce";
 import { STATUS_TEXTS } from "@/lib/config";
 import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";
+import DashContext from "@/store/dash-context";
 
 export type TContentType = "hostname" | "IPv4 address" | "text";
 
@@ -43,11 +44,13 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isInputValid, setIsInputValid] = useState<boolean>(false);
 
+  const { defaultDomainId } = useContext(DashContext);
+
   const {
     data: resp,
     refetch: refetchCheck,
     isError,
-  } = useCheckSubdomainQuery(debouncedSearch);
+  } = useCheckSubdomainQuery(debouncedSearch, defaultDomainId);
 
   const validateInputs = async () => {
     let isInputValid = true;
@@ -165,7 +168,7 @@ const InputGroup: React.FC<IInputGroupProps> = ({
           content: content,
           type: recordType,
           plan: plan,
-          domainId: "6605cb56757e09de775d7632", //TODO: Replace with actual domainId
+          domainId: defaultDomainId, //TODO: Replace with actual domainId
         }),
       });
 

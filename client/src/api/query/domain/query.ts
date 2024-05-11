@@ -5,7 +5,7 @@ const useGetDefaultDomain = () =>
   useQuery({
     queryKey: ["domain", "default"],
     queryFn: () => domainApi.getDefaultDomain(),
-    enabled: false,
+    enabled: true,
     cacheTime: 60000,
   });
 
