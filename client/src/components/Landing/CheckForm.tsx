@@ -1,5 +1,5 @@
 "use client";
-import { HTMLAttributes, use, useEffect, useState } from "react";
+import { HTMLAttributes, use, useContext, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
 import { statusVariantClasses } from "@/config";
@@ -7,29 +7,31 @@ import { TStatus } from "@/types/types";
 import { STATUS_TEXTS } from "@/lib/config";
 import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";
 import { useDebounce } from "@/lib/hooks/debounce";
+import DashContext from "@/store/dash-context";
 
 const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   const { className } = props;
-  const [subdomain, setSubdomain] = useState<string>("");
-  const debouncedSearch = useDebounce(subdomain, 1000);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const debouncedSearch = useDebounce(searchQuery, 1000);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<TStatus>(STATUS_TEXTS.EMPTY);
+
+  const { defaultDomainId } = useContext(DashContext);
+
   const {
     data: resp,
     refetch: refetchCheck,
     isError,
-  } = useCheckSubdomainQuery(debouncedSearch);
+  } = useCheckSubdomainQuery(debouncedSearch, defaultDomainId);
 
   useEffect(() => {
-    setIsLoading(false);
-    if (subdomain.length === 0) {
+    setStatus(STATUS_TEXTS.LOADING);
+    setIsLoading(true);
+    if (searchQuery.length === 0) {
       setStatus(STATUS_TEXTS.EMPTY);
-    } else if (subdomain.length < 3) {
+    } else if (searchQuery.length < 3) {
       setStatus(STATUS_TEXTS.LENGTH);
     } else {
-      setIsLoading(true);
-      setStatus(STATUS_TEXTS.LOADING);
-
       if (isError) {
         setStatus(STATUS_TEXTS.ERROR);
         setIsLoading(false);
@@ -40,10 +42,10 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
         } else {
           setStatus(STATUS_TEXTS.UNAVAILABLE);
         }
-        setIsLoading(false);
       }
     }
-  }, [subdomain, resp, isError]);
+    setIsLoading(false);
+  }, [searchQuery, resp, isError]);
 
   useEffect(() => {
     if (debouncedSearch) {
@@ -60,8 +62,8 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
           type="text"
           placeholder="john"
           className="text-2xl text-center pr-2 py-1 placeholder:opacity-30 focus::outline focus:outline-2 focus:outline-gray-600"
-          value={subdomain}
-          onSearch={setSubdomain}
+          value={searchQuery}
+          onSearch={setSearchQuery}
           enablePlaceholderAnimation={true}
         />
         <span className="text-2xl font-semibold ml-1">.servatom.xyz</span>

@@ -1,11 +1,22 @@
 import { axiosBackendInstance } from "@/axios";
+import { TCheckSubdomainResponse, TDefaultDomainResponse } from "./types";
 
 const subdomainApi = {
-  checkSubdomain: async (searchQuery: string) => {
+  checkSubdomain: async (searchQuery: string, domainID: string) => {
     return axiosBackendInstance
-      .get(`/subdomain/check?subdomain=${searchQuery}`)
+      .get<TCheckSubdomainResponse>(
+        `/subdomain/check?subdomain=${searchQuery}&domainID=${domainID}`
+      )
       .then((res) => res.data);
   },
 };
 
-export { subdomainApi };
+const domainApi = {
+  getDefaultDomain: async () => {
+    return axiosBackendInstance
+      .get<TDefaultDomainResponse>(`/domain/default`)
+      .then((res) => res.data);
+  },
+};
+
+export { subdomainApi, domainApi };
