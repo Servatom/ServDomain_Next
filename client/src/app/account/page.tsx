@@ -19,6 +19,7 @@ import { ArrowRight, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
@@ -26,6 +27,8 @@ const Account = () => {
   const query = useSearchParams();
   const recordId = query.get("recordId");
   const paymentStatus = query.get("paymentStatus");
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     setHydrated(true);
@@ -46,6 +49,7 @@ const Account = () => {
       });
     }
     if (paymentStatus === "cancelled") {
+      queryClient.invalidateQueries(["records", "all"]);
       toast({
         title: "Uh Oh :/",
         description: "Payment was not completed. Please try again.",

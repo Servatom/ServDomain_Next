@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       name: `${
         // Capitalize first letter
         plan.charAt(0).toUpperCase() + plan.slice(1)
-      } Plan - ${subdomain}`,
+      } Plan - ${subdomain}`, //TODO: remove subdomain
       description: `${paymentPagePlans[plan].description}`,
       metadata: {
         recordId,
@@ -86,6 +86,7 @@ export async function POST(req: NextRequest) {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       allow_promotion_codes: true,
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
@@ -114,6 +115,10 @@ export async function POST(req: NextRequest) {
           firebaseId: user.firebaseUID,
         },
       },
+
+      // save_payment_method_options: {
+      //   allow_redisplay_filters: "always"
+      // }
     });
 
     return new NextResponse(JSON.stringify(session), { status: 201 });

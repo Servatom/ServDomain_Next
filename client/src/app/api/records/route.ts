@@ -17,12 +17,12 @@ export async function GET(req: NextRequest) {
     });
 
   if (!records) {
-    return new Response(JSON.stringify({ data: [] }), {
+    return new Response(JSON.stringify([]), {
       status: 401,
     });
   }
 
-  return new Response(JSON.stringify({ data: records }), {
+  return new Response(JSON.stringify(records), {
     status: 200,
   });
 }
