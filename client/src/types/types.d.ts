@@ -8,6 +8,7 @@ export type TUser = {
   email?: string;
   isStudent?: boolean;
   stripeCustomerId?: string;
+  onWaitlist: boolean;
 };
 
 export type TPlanName = "personal" | "vercel" | "annual";

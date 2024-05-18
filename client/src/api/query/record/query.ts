@@ -1,4 +1,4 @@
-import { domainApi, recordsApi } from "@/api/api";
+import { recordsApi } from "@/api/api";
 import { useQuery } from "react-query";
 
 const useGetUserRecords = () =>

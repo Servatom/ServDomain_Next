@@ -2,6 +2,27 @@ import { axiosBackendInstance, axiosFrontendInstance } from "@/axios";
 import { TCheckSubdomainResponse, TDefaultDomainResponse } from "./types";
 import { TRecord } from "@/types/types";
 
+const userApi = {
+  updateWaitlistStatus: async (value: boolean) => {
+    const userString = localStorage.getItem("user");
+    if (!userString) return;
+    const token = JSON.parse(userString).token;
+    console.log(token);
+
+    return await axiosBackendInstance
+      .post(
+        "/user/waitlist",
+        { onWaitlist: value },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => res.data);
+  },
+};
+
 const subdomainApi = {
   checkSubdomain: async (searchQuery: string, domainID: string) => {
     return await axiosBackendInstance
@@ -30,4 +51,4 @@ const recordsApi = {
   },
 };
 
-export { subdomainApi, domainApi, recordsApi };
+export { subdomainApi, domainApi, recordsApi, userApi };

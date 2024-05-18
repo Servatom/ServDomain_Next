@@ -5,7 +5,7 @@ const Callout: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   return (
     <span
       className={twMerge(
-        "p-6 rounded-lg backdrop-blur-md bg-gray-500 bg-opacity-10 my-4",
+        "p-6 rounded-lg backdrop-blur-md bg-gray-500 bg-opacity-10",
         props.className
       )}
     >

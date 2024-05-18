@@ -15,6 +15,7 @@ export interface IContextType {
   isMenuOpen: boolean;
   setIsMenuOpen: (value: boolean) => void;
   updateEmail: (email: string) => void;
+  updateWaitlistStatus: (value: boolean) => void;
 }
 
 type Props = {
@@ -31,13 +32,15 @@ const AuthContext = React.createContext<IContextType>({
     lastName: "",
     email: "",
     isStudent: false,
+    onWaitlist: false,
   },
   isLoggedIn: false,
-  login: (user) => {},
+  login: (user: TUser) => {},
   logout: () => {},
   isMenuOpen: false,
-  setIsMenuOpen: (value) => {},
-  updateEmail: (email) => {},
+  setIsMenuOpen: (value: boolean) => {},
+  updateEmail: (email: string) => {},
+  updateWaitlistStatus: (value: boolean) => {},
 });
 
 export const AuthContextProvider = ({ children }: Props) => {
@@ -75,8 +78,15 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const updateEmail = (email: string) => {
-    if(!user) return;
+    if (!user) return;
     let updatedUser = { ...user, email: email };
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
+  const updateWaitlistStatus = (value: boolean) => {
+    if (!user) return;
+    let updatedUser = { ...user, onWaitlist: value };
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
   };
@@ -89,6 +99,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     isMenuOpen: isMenuOpen,
     setIsMenuOpen: setIsMenuOpen,
     updateEmail: updateEmail,
+    updateWaitlistStatus: updateWaitlistStatus,
   };
 
   return (
