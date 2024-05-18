@@ -29,8 +29,10 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
     setIsLoading(true);
     if (searchQuery.length === 0) {
       setStatus(STATUS_TEXTS.EMPTY);
+      setIsLoading(false);
     } else if (searchQuery.length < 3) {
       setStatus(STATUS_TEXTS.LENGTH);
+      setIsLoading(false);
     } else {
       if (isError) {
         setStatus(STATUS_TEXTS.ERROR);
@@ -42,9 +44,9 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
         } else {
           setStatus(STATUS_TEXTS.UNAVAILABLE);
         }
+        setIsLoading(false);
       }
     }
-    setIsLoading(false);
   }, [searchQuery, resp, isError]);
 
   useEffect(() => {
