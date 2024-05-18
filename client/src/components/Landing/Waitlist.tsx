@@ -2,15 +2,31 @@
 
 import AuthContext from "@/store/auth-context";
 import { Button } from "../ui/button";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import Callout from "../common/Callout";
 import { useUpdateWaitlistStatus } from "@/api/mutation/user/mutation";
 import { useRouter } from "next/navigation";
+import JSConfetti from "js-confetti";
 
 const Waitlist: React.FC = () => {
   const authCtx = useContext(AuthContext);
   const router = useRouter();
-  const { mutate: joinWaitlistMutate } = useUpdateWaitlistStatus(true, authCtx);
+
+  const jsConfetti = new JSConfetti();
+
+  const addConfetti = () => {
+    jsConfetti.addConfetti({
+      emojis: ["🚀", "⚡️", "🦄"],
+      confettiNumber: 20,
+      emojiSize: 120,
+    });
+  };
+
+  const { mutate: joinWaitlistMutate } = useUpdateWaitlistStatus(
+    true,
+    authCtx,
+    addConfetti
+  );
 
   const handleJoinWaitlist = () => {
     if (!authCtx.user) {
@@ -45,7 +61,11 @@ const Waitlist: React.FC = () => {
           You are <em>on</em> the waitlist ⚡️
         </span>
       ) : (
-        <Button variant={"default"} onClick={handleJoinWaitlist}>
+        <Button
+          variant={"default"}
+          className="relative"
+          onClick={handleJoinWaitlist}
+        >
           Join the waitlist 🥏
         </Button>
       )}
