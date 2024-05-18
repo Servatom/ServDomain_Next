@@ -5,9 +5,9 @@ import { DataTable } from "./data-table";
 import { TRecord } from "@/types/types";
 import { useGetUserRecords } from "@/api/query/record/query";
 
-export default function RecordsTable() {
+const RecordsTable: React.FC<{ data: TRecord[] }> = ({ data }) => {
   const [records, setRecords] = useState<TRecord[]>([]);
-  const { data } = useGetUserRecords();
+
   useEffect(() => {
     if (!data) return;
 
@@ -32,4 +32,6 @@ export default function RecordsTable() {
       <DataTable columns={columns} data={records} />
     </div>
   );
-}
+};
+
+export default RecordsTable;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useGetUserRecords } from "@/api/query/record/query";
 import { axiosFrontendInstance } from "@/axios";
 import RecordsTable from "@/components/RecordTable/RecordTable";
 import Button from "@/components/common/Button";
@@ -27,22 +28,32 @@ const Account = () => {
   const query = useSearchParams();
   const recordId = query.get("recordId");
   const paymentStatus = query.get("paymentStatus");
-
+  const { data } = useGetUserRecords();
   const queryClient = useQueryClient();
+  const authCtx = useContext(AuthContext);
+  const router = useRouter();
+  const [recordsQty, setRecordsQty] = useState({
+    cname: {
+      total: 0,
+      used: 0,
+    },
+    a: {
+      total: 0,
+      used: 0,
+    },
+    txt: {
+      total: 0,
+      used: 0,
+    },
+  });
 
   useEffect(() => {
     setHydrated(true);
   }, []);
 
-  const handleIncompletePayment = async (recordId: string) => {
-    const { data, status } = await axiosFrontendInstance.delete(
-      `/payment/create-checkout-session?recordId=${recordId}`
-    );
-    return { data, status };
-  };
-
   useEffect(() => {
     if (paymentStatus === "success") {
+      queryClient.invalidateQueries(["records", "all"]);
       toast({
         title: "Wuhuu!",
         description: "Your subscription will be active shortly.",
@@ -73,13 +84,41 @@ const Account = () => {
       url.searchParams.delete("recordId");
       window.history.replaceState({}, "", url.href);
     }
-  }, [paymentStatus, recordId]);
-  const authCtx = useContext(AuthContext);
-  const router = useRouter();
-  if (!hydrated) {
-    // Returns null on first render, so the client and server match
-    return null;
-  }
+  }, [paymentStatus, recordId, queryClient]);
+
+  useEffect(() => {
+    if (!data) return;
+
+    const cnameUsed = data.filter((record) => record.type === "CNAME").length;
+    const aUsed = data.filter((record) => record.type === "A").length;
+    const txtUsed = data.filter((record) => record.type === "TXT").length;
+
+    const txtTotal = data.filter(
+      (record) => record.plan === "vercel" || record.plan === "annual"
+    ).length;
+
+    setRecordsQty({
+      cname: {
+        total: cnameUsed,
+        used: cnameUsed,
+      },
+      a: {
+        total: aUsed,
+        used: aUsed,
+      },
+      txt: {
+        total: txtTotal,
+        used: txtUsed,
+      },
+    });
+  }, [data]);
+
+  const handleIncompletePayment = async (recordId: string) => {
+    const { data, status } = await axiosFrontendInstance.delete(
+      `/payment/create-checkout-session?recordId=${recordId}`
+    );
+    return { data, status };
+  };
 
   const handleManageSubscriptions = async () => {
     setIsLoading(true);
@@ -105,6 +144,12 @@ const Account = () => {
     }
     setIsLoading(false);
   };
+
+  if (!hydrated) {
+    // Returns null on first render, so the client and server match
+    return null;
+  }
+
   return (
     <div className="w-full h-full flex flex-col items-center p-16 max-w-7xl mx-auto">
       <Avatar className="w-24 h-24 mt-8">
@@ -162,7 +207,9 @@ const Account = () => {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>CNAME Records</CardTitle>
-            <CardDescription>3/3 used</CardDescription>
+            <CardDescription>
+              {recordsQty.cname.used} / {recordsQty.cname.total} used
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p>No more records to add</p>
@@ -172,7 +219,9 @@ const Account = () => {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>A Records</CardTitle>
-            <CardDescription>2/2 used</CardDescription>
+            <CardDescription>
+              {recordsQty.a.used} / {recordsQty.a.total} used
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <p>No more records to add</p>
@@ -182,10 +231,16 @@ const Account = () => {
         <Card className="w-full">
           <CardHeader>
             <CardTitle>TXT Records</CardTitle>
-            <CardDescription>1/2 used</CardDescription>
+            <CardDescription>
+              {recordsQty.txt.used} / {recordsQty.txt.total} used
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button className="w-full">Add TXT Record</Button>
+            {recordsQty.txt.used < recordsQty.txt.total ? (
+              <Button className="w-full">Add TXT Record</Button>
+            ) : (
+              <p>No more records to add</p>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -193,7 +248,7 @@ const Account = () => {
         <h1 className="text-xl font-medium text-center">Your Records</h1>
         {/* <RecordsTable allowActions /> */}
         <Suspense>
-          <RecordsTable />
+          <RecordsTable data={data || []} />
         </Suspense>
       </div>
       <span className="text-xs pb-8 text-gray-400">
