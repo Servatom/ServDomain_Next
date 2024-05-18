@@ -2,25 +2,42 @@
 
 import AuthContext from "@/store/auth-context";
 import { Button } from "../ui/button";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Callout from "../common/Callout";
 import { useUpdateWaitlistStatus } from "@/api/mutation/user/mutation";
 import { useRouter } from "next/navigation";
-import JSConfetti from "js-confetti";
 
 const Waitlist: React.FC = () => {
   const authCtx = useContext(AuthContext);
   const router = useRouter();
+  const [addConfetti, setAddConfetti] = useState(() => () => {});
+  const [isClient, setIsClient] = useState(false);
 
-  const jsConfetti = new JSConfetti();
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  const addConfetti = () => {
-    jsConfetti.addConfetti({
-      emojis: ["🚀", "⚡️", "🦄"],
-      confettiNumber: 20,
-      emojiSize: 120,
-    });
-  };
+    import("js-confetti")
+      .then((JsConfettiModule) => {
+        const JsConfetti = JsConfettiModule.default;
+        const jsConfetti = new JsConfetti();
+
+        // Trigger confetti when desired
+        const addConfetti = () => {
+          jsConfetti.addConfetti({
+            emojis: ["🚀", "⚡️", "🦄"],
+            confettiNumber: 20,
+            emojiSize: 120,
+          });
+        };
+
+        setAddConfetti(() => addConfetti);
+      })
+      .catch((error) => {
+        console.error("Error loading js-confetti:", error);
+      });
+
+    setIsClient(true);
+  }, []);
 
   const { mutate: joinWaitlistMutate } = useUpdateWaitlistStatus(
     true,
@@ -41,6 +58,8 @@ const Waitlist: React.FC = () => {
 
     joinWaitlistMutate();
   };
+
+  if (!isClient) return null;
 
   return (
     <div
