@@ -13,6 +13,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { TUser } from "@/types/types";
 import { axiosBackendInstance } from "@/axios";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 const setServerLogin = async (user: TUser) => {
   return await fetch("/api/login", {
@@ -43,14 +50,6 @@ export default function Login() {
       setPhoneNumber(e.target.value);
     } else {
       setPhoneNumber(e.target.value.slice(0, 10));
-    }
-  };
-
-  const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e!.target.value.length === 6) {
-      setOtp(e.target.value);
-    } else {
-      setOtp(e.target.value.slice(0, 6));
     }
   };
 
@@ -184,7 +183,7 @@ export default function Login() {
         Login
       </h1>
       <div className="w-full h-[60%] flex items-center justify-center p-4 flex-col">
-        <div className="flex flex-col gap-5 items-start w-[40vw] mb-4 rounded-lg text-gray-300 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-xl bg-opacity-20 p-8">
+        <div className="flex flex-col gap-5 items-start w-[40vw] md:min-w-[500px] min-w-[350px] mb-4 rounded-lg text-gray-300 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-xl bg-opacity-20 p-8">
           <div className="flex flex-col w-full gap-3">
             <label htmlFor="number">Mobile Number:</label>
             <Input
@@ -198,16 +197,27 @@ export default function Login() {
           </div>
           <div className="flex flex-col w-full gap-3">
             <label htmlFor="otp">OTP:</label>
-            <Input
-              id="otp"
+            <InputOTP
               maxLength={6}
-              placeholder="XXX-XXX"
+              id="otp"
               value={otp}
-              onChange={handleOtpChange}
+              onChange={(x) => {
+                setOtp(x);
+              }}
               disabled={!otpSent}
               ref={otpInputRef}
               autoComplete="off"
-            />
+              pattern={REGEXP_ONLY_DIGITS}
+            >
+              <InputOTPGroup className="w-full md:h-16 h-12 text-gray-300 font-semibold">
+                <InputOTPSlot index={0} className="w-full h-full text-lg" />
+                <InputOTPSlot index={1} className="w-full h-full text-lg" />
+                <InputOTPSlot index={2} className="w-full h-full text-lg" />
+                <InputOTPSlot index={3} className="w-full h-full text-lg" />
+                <InputOTPSlot index={4} className="w-full h-full text-lg" />
+                <InputOTPSlot index={5} className="w-full h-full text-lg" />
+              </InputOTPGroup>
+            </InputOTP>
           </div>
           {!otpSent && (
             <Button
