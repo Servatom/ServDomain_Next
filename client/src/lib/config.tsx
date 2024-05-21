@@ -48,6 +48,10 @@ export const STATUS_TEXTS: {
     variant: "error",
     text: "Invalid subdomain",
   },
+  INVISIBLE: {
+    variant: "neutral",
+    text: "",
+  },
 };
 
 export const plans: TPlan[] = [

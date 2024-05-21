@@ -19,11 +19,6 @@ const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
           <TabsTrigger value="a" className="text-lg">
             A RECORD
           </TabsTrigger>
-          {["vercel", "annual"].includes(plan.path) && (
-            <TabsTrigger value="txt" className="text-lg">
-              TXT
-            </TabsTrigger>
-          )}
         </TabsList>
         <TabsContent value="cname">
           <InputGroup
@@ -41,16 +36,6 @@ const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
             contentValidationHandler={validateIPv4}
           />
         </TabsContent>
-        {["vercel", "annual"].includes(plan.path) && (
-          <TabsContent value="txt" className="w-full max-w-lg">
-            <InputGroup
-              recordType="TXT"
-              contentType="text"
-              contentPlaceholder="vc-domain-verify=subdomain.domain.xyz,hvwivekf87293792"
-              contentValidationHandler={validateTxtRecord}
-            />
-          </TabsContent>
-        )}
       </Tabs>
     </div>
   );

@@ -21,10 +21,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
+import AddTXTRecord from "@/components/Plan/AddTXTRecord";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [txtRecordOpen, setTxtRecordOpen] = useState(false);
   const query = useSearchParams();
   const recordId = query.get("recordId");
   const paymentStatus = query.get("paymentStatus");
@@ -237,13 +239,16 @@ const Account = () => {
           </CardHeader>
           <CardContent>
             {recordsQty.txt.used < recordsQty.txt.total ? (
-              <Button className="w-full">Add TXT Record</Button>
+              <Button className="w-full" onClick={() => setTxtRecordOpen(true)}>
+                Add TXT Record
+              </Button>
             ) : (
               <p>No more records to add</p>
             )}
           </CardContent>
         </Card>
       </div>
+      <AddTXTRecord open={txtRecordOpen} onOpenChange={setTxtRecordOpen} />
       <div className="mt-16 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>
         {/* <RecordsTable allowActions /> */}
