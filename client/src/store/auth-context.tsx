@@ -3,7 +3,7 @@
 import { signOut } from "firebase/auth";
 import React, { useState } from "react";
 // import customToast from "../components/common/CustomToast";
-import { auth } from "../firebase.config";
+import { auth } from "../lib/firebase.config";
 import { useToast } from "@/components/ui/use-toast";
 import { TUser } from "@/types/types";
 

@@ -22,7 +22,7 @@ import { validateHostname, validateIPv4 } from "@/lib/utils";
 import { TRecord, TRecordType } from "@/types/types";
 import { toast } from "../ui/use-toast";
 import AuthContext from "@/store/auth-context";
-import { axiosBackendInstance } from "@/axios";
+import { axiosBackendInstance } from "@/lib/axios";
 
 const UpdateRecord = (record: TRecord) => {
   const [content, setContent] = useState(record.content);

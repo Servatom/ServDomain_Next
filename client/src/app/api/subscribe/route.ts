@@ -1,5 +1,5 @@
-import { axiosBackendInstance } from "@/axios";
-import { products } from "@/config";
+import { axiosBackendInstance } from "@/lib/axios";
+import { products } from "@/lib/config";
 import { setCookie } from "@/lib/actions.server";
 import { TUser } from "@/types/types";
 import { NextResponse, NextRequest } from "next/server";

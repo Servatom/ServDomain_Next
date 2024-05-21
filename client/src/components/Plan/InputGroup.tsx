@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Input } from "../ui/input";
-import { statusVariantClasses } from "@/config";
+import { statusVariantClasses } from "@/lib/config";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";

@@ -1,4 +1,4 @@
-import { axiosBackendInstance } from "@/axios";
+import { axiosBackendInstance } from "@/lib/axios";
 import { TUser } from "@/types/types";
 import { redirect } from "next/navigation";
 import { NextResponse, NextRequest } from "next/server";

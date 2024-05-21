@@ -1,5 +1,5 @@
 "use client";
-import { axiosFrontendInstance } from "@/axios";
+import { axiosFrontendInstance } from "@/lib/axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";

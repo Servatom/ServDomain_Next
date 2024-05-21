@@ -1,5 +1,5 @@
 "use client";
-import { CancellationTerms, Terms } from "@/config";
+import { CancellationTerms, Terms } from "@/lib/config";
 import { useRouter } from "next/navigation";
 import { IoArrowBackOutline } from "react-icons/io5";
 

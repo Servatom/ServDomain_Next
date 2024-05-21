@@ -1,7 +1,7 @@
 "use client";
 
 import { useGetUserRecords } from "@/api/query/record/query";
-import { axiosFrontendInstance } from "@/axios";
+import { axiosFrontendInstance } from "@/lib/axios";
 import RecordsTable from "@/components/RecordTable/RecordTable";
 import Button from "@/components/common/Button";
 import Loader from "@/components/common/Loader";

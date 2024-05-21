@@ -2,7 +2,7 @@
 import { HTMLAttributes, use, useContext, useEffect, useState } from "react";
 import DynamicInput from "../common/DynamicInput";
 import Loader from "../common/Loader";
-import { statusVariantClasses } from "@/config";
+import { statusVariantClasses } from "@/lib/config";
 import { TStatus } from "@/types/types";
 import { STATUS_TEXTS } from "@/lib/config";
 import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";

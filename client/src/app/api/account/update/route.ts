@@ -1,4 +1,4 @@
-import { axiosBackendInstance } from "@/axios";
+import { axiosBackendInstance } from "@/lib/axios";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {

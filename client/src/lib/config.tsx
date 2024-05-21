@@ -1,4 +1,4 @@
-import { TPlan, TPlanFrequency, TPlanName } from "./types/types";
+import { TPlan, TPlanFrequency, TPlanName, TStatus } from "../types/types";
 
 export const features: {
   [key in TPlanName]: string[];
@@ -11,6 +11,43 @@ export const features: {
     "Billed Monthly",
   ],
   annual: ["CNAME / A Record", "TXT Record", "Hassle-free for an year"],
+};
+
+export const STATUS_TEXTS: {
+  [key: string]: TStatus;
+} = {
+  AVAILABLE: {
+    variant: "success",
+    text: "✓ subdomain is available",
+  },
+  UNAVAILABLE: {
+    variant: "error",
+    text: "✕ subdomain is not available",
+  },
+  ERROR: {
+    variant: "error",
+    text: "⚠ Something went wrong",
+  },
+  LOADING: {
+    variant: "neutral",
+    text: "Checking availability",
+  },
+  EMPTY: {
+    variant: "neutral",
+    text: "Enter value to check availability",
+  },
+  LENGTH: {
+    variant: "error",
+    text: "Subdomain must be atleast 3 characters long",
+  },
+  CHECK: {
+    variant: "neutral",
+    text: "Check availability",
+  },
+  INVALID: {
+    variant: "error",
+    text: "Invalid subdomain",
+  },
 };
 
 export const plans: TPlan[] = [

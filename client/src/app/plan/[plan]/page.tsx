@@ -4,7 +4,7 @@ import { useGetUserRecords } from "@/api/query/record/query";
 import AddForm from "@/components/Plan/AddForm";
 import RecordsTable from "@/components/RecordTable/RecordTable";
 import Feature from "@/components/common/Feature";
-import { features, plans } from "@/config";
+import { features, plans } from "@/lib/config";
 import AuthContext from "@/store/auth-context";
 import { TPlanName } from "@/types/types";
 import { useRouter } from "next/navigation";

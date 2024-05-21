@@ -4,7 +4,7 @@ import Button from "@/components/common/Button";
 import Loader from "@/components/common/Loader";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { auth } from "@/firebase.config";
+import { auth } from "@/lib/firebase.config";
 import { validateOtp, validatePhoneNumber } from "@/lib/utils";
 import AuthContext from "@/store/auth-context";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
@@ -12,7 +12,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
 import { TUser } from "@/types/types";
-import { axiosBackendInstance } from "@/axios";
+import { axiosBackendInstance } from "@/lib/axios";
 import {
   InputOTP,
   InputOTPGroup,

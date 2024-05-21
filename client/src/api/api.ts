@@ -1,4 +1,4 @@
-import { axiosBackendInstance, axiosFrontendInstance } from "@/axios";
+import { axiosBackendInstance, axiosFrontendInstance } from "@/lib/axios";
 import { TCheckSubdomainResponse, TDefaultDomainResponse } from "./types";
 import { TRecord } from "@/types/types";
 
