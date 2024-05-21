@@ -114,22 +114,29 @@ const Account = () => {
   const handleManageSubscriptions = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/account/manage-subscriptions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      if (data.url) {
-        router.push(data.url);
+      const res = await axiosFrontendInstance.post(
+        "/account/manage-subscriptions",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log(data);
+      if (res.status === 200) {
+        router.push(res.data.url);
+      } else if (res.status === 404) {
+        toast({
+          title: "No subscriptions found",
+          variant: "destructive",
+        });
       } else {
         throw new Error("Something went wrong");
       }
     } catch (error: any) {
-      console.error(error);
       toast({
-        title: error,
+        title: error.response.data.message || "Something went wrong",
         variant: "destructive",
       });
     }

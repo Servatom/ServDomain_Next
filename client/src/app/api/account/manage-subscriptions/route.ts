@@ -20,9 +20,14 @@ export async function POST(req: NextRequest) {
     .then((res) => res.data.data);
 
   if (!user.stripeCustomerId) {
-    return new NextResponse("No subscriptions found", {
-      status: 500,
-    });
+    return new NextResponse(
+      JSON.stringify({
+        message: "No subscriptions found.",
+      }),
+      {
+        status: 404,
+      }
+    );
   }
 
   try {
