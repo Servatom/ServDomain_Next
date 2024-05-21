@@ -170,3 +170,36 @@ export const CancellationTerms = [
   "No refunds will be issued for the remaining period of the subscription.",
   "A terminated subdomain cannot be restored and must be bought again subject to availability.",
 ];
+
+export const WhyServdomain = [
+  <>
+    If you are a student or young tech enthusiast with less budget but dont
+    wanna restrict yourself to free subdomains like{" "}
+    <em className="underline underline-offset-4">
+      your-project-name-and-some-extra-gibberish-h8735d.versail.com.
+    </em>{" "}
+    (Yuck! Will you put that on your résume ?? 🤮)
+  </>,
+  <>
+    If you have a VM running on cloud, hosting your application and you are done
+    accessing it through its IP address. (I mean, you can keep using{" "}
+    <em className="underline underline-offset-4">11.147.208.49/api/hello</em>{" "}
+    but{" "}
+    <em className="underline underline-offset-4 text-purple-400">
+      cool-api.servatom.xyz/api/hello
+    </em>{" "}
+    is so much cooler and easy to remember! 😎)
+  </>,
+  <>
+    If you only need a good-looking domain for a few weeks and dont want to pay
+    hefty annual amounts for it. 💸
+  </>,
+  <>
+    If you really love a domain, and wish if you could own at least a part of
+    it, if not all 🥺 ?
+  </>,
+  <>
+    If you are new to networking and DNS and want to experiment with CNAME / A /
+    TXT records. 👩‍💻
+  </>,
+];
