@@ -48,3 +48,13 @@ export type TRecord = {
   cloudflareId: string;
   cloudflareZoneId: string;
 };
+
+export type TPlanStats = {
+  personal: number;
+  vercel: number;
+  annual: number;
+  txt: {
+    total: number;
+    used: number;
+  };
+};

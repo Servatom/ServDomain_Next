@@ -10,7 +10,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,6 +21,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useContext, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import AddTXTRecord from "@/components/Plan/AddTXTRecord";
+import { TPlanStats } from "@/types/types";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
@@ -34,15 +34,10 @@ const Account = () => {
   const queryClient = useQueryClient();
   const authCtx = useContext(AuthContext);
   const router = useRouter();
-  const [recordsQty, setRecordsQty] = useState({
-    cname: {
-      total: 0,
-      used: 0,
-    },
-    a: {
-      total: 0,
-      used: 0,
-    },
+  const [recordsQty, setRecordsQty] = useState<TPlanStats>({
+    personal: 0,
+    vercel: 0,
+    annual: 0,
     txt: {
       total: 0,
       used: 0,
@@ -91,27 +86,21 @@ const Account = () => {
   useEffect(() => {
     if (!data) return;
 
-    const cnameUsed = data.filter((record) => record.type === "CNAME").length;
-    const aUsed = data.filter((record) => record.type === "A").length;
     const txtUsed = data.filter((record) => record.type === "TXT").length;
+    // get plan wise count from backend
 
     const txtTotal = data.filter(
       (record) => record.plan === "vercel" || record.plan === "annual"
     ).length;
 
-    setRecordsQty({
-      cname: {
-        total: cnameUsed,
-        used: cnameUsed,
-      },
-      a: {
-        total: aUsed,
-        used: aUsed,
-      },
-      txt: {
-        total: txtTotal,
-        used: txtUsed,
-      },
+    setRecordsQty((prev) => {
+      return {
+        ...prev,
+        txt: {
+          total: txtTotal,
+          used: txtUsed,
+        },
+      };
     });
   }, [data]);
 
@@ -205,45 +194,48 @@ const Account = () => {
           </Button>
         </div>
       </div>
-      <div className="mt-16 p-8 w-full flex flex-row gap-8">
+      <div className="mt-16 p-8 w-full grid grid-cols-3 gap-8">
         <Card className="w-full">
-          <CardHeader>
-            <CardTitle>CNAME Records</CardTitle>
+          <CardHeader className="flex flex-col justify-between h-full">
+            <CardTitle>Personal Plans</CardTitle>
             <CardDescription>
-              {recordsQty.cname.used} / {recordsQty.cname.total} used
+              {recordsQty.personal} active subscriptions
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p>No more records to add</p>
-          </CardContent>
         </Card>
 
         <Card className="w-full">
-          <CardHeader>
-            <CardTitle>A Records</CardTitle>
+          <CardHeader className="flex flex-col justify-between h-full">
+            <CardTitle>Vercel Plans</CardTitle>
             <CardDescription>
-              {recordsQty.a.used} / {recordsQty.a.total} used
+              {recordsQty.vercel} active subscriptions
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p>No more records to add</p>
-          </CardContent>
         </Card>
 
         <Card className="w-full">
+          <CardHeader className="flex flex-col justify-between h-full">
+            <CardTitle>Annual Plans</CardTitle>
+            <CardDescription>
+              {recordsQty.annual} active subscriptions
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <Card className="w-full col-span-3 flex flex-row justify-between items-center">
           <CardHeader>
             <CardTitle>TXT Records</CardTitle>
             <CardDescription>
               {recordsQty.txt.used} / {recordsQty.txt.total} used
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0 pr-6">
             {recordsQty.txt.used < recordsQty.txt.total ? (
               <Button className="w-full" onClick={() => setTxtRecordOpen(true)}>
                 Add TXT Record
               </Button>
             ) : (
-              <p>No more records to add</p>
+              <p className="text-muted-foreground">No more records to add</p>
             )}
           </CardContent>
         </Card>
