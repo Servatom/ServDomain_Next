@@ -75,7 +75,7 @@ export const plans: TPlan[] = [
     id: 3,
     name: "Annual",
     path: "annual",
-    price: 100,
+    price: 150,
     frequency: "Yearly",
     features: features["annual"],
   },
@@ -91,7 +91,7 @@ export const products: {
   annual: {
     productId: "prod_OMM6tsZxTAFR3O",
     interval: "year",
-    unit_amount: 10000,
+    unit_amount: 15000,
   },
   personal: {
     productId: "prod_OMM2P5yDisxbhd",
@@ -113,22 +113,22 @@ export const paymentPagePlans: {
   };
 } = {
   personal: {
-    price: 30,
+    price: 15,
     frequency: "Monthly",
     description:
       "Personal Plan lets you own a CNAME/A Record at ₹0.5 per day, billed monthly. You can freely edit the content of a record after purchase.",
   },
   vercel: {
-    price: 15,
+    price: 30,
     frequency: "Monthly",
     description:
-      "Vercel Starter Plan lets you own a CNAME/A Record and a TXT Record at ₹1 per day, billed monthly. You can freely edit the content of a record after purchase.",
+      "Vercel Starter Plan lets you own a CNAME/A Record and a TXT Record at ₹1 per day, billed monthly. You can freely edit the content of a record after purchase. This is the best way to integrate your hosted project with a custom domain!",
   },
   annual: {
-    price: 100,
+    price: 150,
     frequency: "Yearly",
     description:
-      "Annual Plan lets you own a CNAME/A Record and a TXT Record at ₹100 per annum, saving a MASSIVE 72%. You can freely edit the content of a record after purchase. Pay once a year and stay hassle-free!",
+      "Annual Plan lets you own a CNAME/A Record and a TXT Record at ₹100 per annum, saving a MASSIVE 59%. You can freely edit the content of a record after purchase. Pay once a year and stay hassle-free!",
   },
 };
 
@@ -169,7 +169,7 @@ export const Terms = [
 
 export const CancellationTerms = [
   "Cancellation of a subscription is allowed only if the subscription is active.",
-  "Processing of cancellation may take upto 2 days.",
+  "Processing of cancellation may take upto 7 days.",
   "Cancellation of a subscription will result in the termination of the subdomain with effect from the date of processing of cancellation.",
   "No refunds will be issued for the remaining period of the subscription.",
   "A terminated subdomain cannot be restored and must be bought again subject to availability.",

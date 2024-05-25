@@ -57,8 +57,12 @@ export default function Landing() {
           Terms and Conditions
         </Link>
         |
+        <Link href={"/tnc#cancellation"} className="text-center ">
+          Cancellation and Refund Policy
+        </Link>
+        |
         <Link href={"/support"} className="text-center ">
-          Support
+          Contact Us
         </Link>
       </div>
       <span className="pb-2 opacity-50 text-xs">

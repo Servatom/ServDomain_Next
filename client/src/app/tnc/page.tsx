@@ -25,7 +25,10 @@ export default function TnC() {
           );
         })}
       </ol>
-      <h1 className="font-semibold text-3xl mt-10 mb-3 sm:ml-14">
+      <h1
+        className="font-semibold text-3xl mt-10 mb-3 sm:ml-14"
+        id="cancellation"
+      >
         Cancellation & Refund Policy{" "}
       </h1>
       <div className="sm:px-14">

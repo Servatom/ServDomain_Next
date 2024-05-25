@@ -18,7 +18,7 @@ export default function Support() {
             router.back();
           }}
         />
-        Support
+        Contact Us
       </h1>
       <p className="p-4 sm:ml-10 mt-4">
         For any queries or support, you can fill the following form or write
