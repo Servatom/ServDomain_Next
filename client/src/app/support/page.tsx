@@ -10,7 +10,7 @@ import { IoArrowBackOutline } from "react-icons/io5";
 export default function Support() {
   const router = useRouter();
   return (
-    <div className="flex flex-col items-start p-6 sm:p-12 text-gray-300">
+    <div className="flex flex-col items-start p-6 sm:p-12 text-gray-300 min-h-screen">
       <h1 className="font-semibold text-3xl flex flex-row items-center">
         <IoArrowBackOutline
           className="text-gray-300 mr-6 cursor-pointer"

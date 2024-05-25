@@ -58,7 +58,7 @@ export default function Landing() {
         </Link>
         |
         <Link href={"/tnc#cancellation"} className="text-center ">
-          Cancellation and Refund Policy
+          Cancellation and Refund
         </Link>
         |
         <Link href={"/support"} className="text-center ">
