@@ -56,7 +56,7 @@ const CheckForm: React.FC<HTMLAttributes<HTMLDivElement>> = (props) => {
   }, [debouncedSearch, refetchCheck]);
 
   return (
-    <div className="flex flex-col m-4 p-4">
+    <div className="flex flex-col m-4 mb-12 p-4">
       <form
         className={`flex flex-row w-min mx-auto items-center justify-center ${className}`}
       >

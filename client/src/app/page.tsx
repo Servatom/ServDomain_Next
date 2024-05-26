@@ -17,7 +17,7 @@ export default function Landing() {
     <div className="w-full h-full min-h-screen flex flex-col text-gray-300 items-center px-12 sm:px-28 lg:px-40 landing">
       <Hero />
       <CheckForm className="mt-12" />
-      <Waitlist />
+      {/* <Waitlist /> */}
       <Pricing />
       <Callout className="mb-12 w-full max-w-xxl">
         <Accordion className=" " type="single" collapsible>
