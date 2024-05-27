@@ -15,7 +15,7 @@ const PaymentPage = () => {
   const handleStripePayment = async () => {
     try {
       const { data, status } = await axiosFrontendInstance.post(
-        "/payment/create-checkout-session",
+        "/payment/stripe/create-checkout-session",
         {
           data: {
             plan,

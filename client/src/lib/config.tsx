@@ -81,7 +81,7 @@ export const plans: TPlan[] = [
   },
 ];
 
-export const products: {
+export const stripeProducts: {
   [key: string]: {
     productId: string;
     interval: "month" | "year" | "week" | "day";
@@ -100,6 +100,39 @@ export const products: {
   },
   vercel: {
     productId: "prod_OMLgz8ig0G6jLY",
+    interval: "month",
+    unit_amount: 3000,
+  },
+};
+
+export const razorpayPlans: {
+  [key in TPlanName]: {
+    planId: string;
+    interval: "month" | "year" | "week" | "day";
+    unit_amount: number;
+  };
+} = {
+  annual: {
+    planId:
+      process.env.NODE_ENV === "development"
+        ? "plan_OEj84xgxJ5f7Nc"
+        : "plan_OFFNmwlNckemGG",
+    interval: "year",
+    unit_amount: 15000,
+  },
+  personal: {
+    planId:
+      process.env.NODE_ENV === "development"
+        ? "plan_OEj3uUo9Kl8VyC"
+        : "plan_OFFOK36PGgzt0j",
+    interval: "month",
+    unit_amount: 1500,
+  },
+  vercel: {
+    planId:
+      process.env.NODE_ENV === "development"
+        ? "plan_OEj5fUJpj4yfEs"
+        : "plan_OFFOiRUT5wr39M",
     interval: "month",
     unit_amount: 3000,
   },

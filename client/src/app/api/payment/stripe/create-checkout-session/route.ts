@@ -1,5 +1,5 @@
 import { axiosBackendInstance } from "@/lib/axios";
-import { paymentPagePlans, products } from "@/lib/config";
+import { paymentPagePlans, stripeProducts } from "@/lib/config";
 import { setCookie } from "@/lib/actions.server";
 import { TUser } from "@/types/types";
 import { NextResponse, NextRequest } from "next/server";
@@ -92,9 +92,9 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "INR",
             product: product.id,
-            unit_amount: products[plan].unit_amount,
+            unit_amount: stripeProducts[plan].unit_amount,
             recurring: {
-              interval: products[plan].interval,
+              interval: stripeProducts[plan].interval,
             },
           },
           quantity: 1,

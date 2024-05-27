@@ -106,7 +106,7 @@ const Account = () => {
 
   const handleIncompletePayment = async (recordId: string) => {
     const { data, status } = await axiosFrontendInstance.delete(
-      `/payment/create-checkout-session?recordId=${recordId}`
+      `/payment/stripe/create-checkout-session?recordId=${recordId}`
     );
     return { data, status };
   };
