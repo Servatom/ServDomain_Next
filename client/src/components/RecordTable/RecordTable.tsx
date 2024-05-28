@@ -11,19 +11,17 @@ const RecordsTable: React.FC<{ data: TRecord[] }> = ({ data }) => {
   useEffect(() => {
     if (!data) return;
 
-    let overdue = data.filter((record) => record.status === "overdue");
-    let active = data.filter((record) => record.status === "active");
-    let processing = data.filter((record) => record.status === "processing");
-    let cancelled = data.filter((record) => record.status === "cancelled");
-    let expired = data.filter((record) => record.status === "expired");
+    // let overdue = data.filter((record) => record.status === "overdue");
+    // let active = data.filter((record) => record.status === "active");
+    // let processing = data.filter((record) => record.status === "processing");
+    // let cancelled = data.filter((record) => record.status === "cancelled");
+    // let expired = data.filter((record) => record.status === "expired");
 
-    let records = [
-      ...overdue,
-      ...active,
-      ...processing,
-      ...cancelled,
-      ...expired,
-    ];
+    let cname = data.filter((record) => record.type === "CNAME");
+    let a = data.filter((record) => record.type === "A");
+    let txt = data.filter((record) => record.type === "TXT");
+
+    let records = [...cname, ...a, ...txt];
 
     setRecords(records);
   }, [data]);

@@ -38,15 +38,29 @@ export type TPlan = {
 
 export type TRecord = {
   _id: string;
-  type: TRecordType;
+  cloudflareID: string;
+  cloudflareZoneID: string;
+  domainID: string;
+  planID: string;
+  ownerID: string;
   name: string;
   content: string;
-  expiry: string;
-  plan: TPlanName;
-  status: "active" | "processing" | "expired" | "cancelled" | "overdue";
-  stripeSubscriptionId: string;
-  cloudflareId: string;
-  cloudflareZoneId: string;
+  type: TRecordType;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export type TDBPlan = {
+  _id: string;
+  ownerID: string;
+  domainID: string;
+  planType: TPlanName;
+  planLabel: string;
+  hasTxtRecord: boolean;
+  status: TPlanStatus;
+  expiry: Date;
+  razorpaySubscriptionID: string;
+  created_at: Date;
 };
 
 export type TPlanStats = {
@@ -57,4 +71,28 @@ export type TPlanStats = {
     total: number;
     used: number;
   };
+};
+
+// Path: client/src/app/api/subscribe/route.ts
+export type TSubscribePayload = {
+  plan: {
+    ownerID: string;
+    domainID: string;
+    planLabel: string;
+    planType: TPlanName;
+  };
+  record: {
+    name: string;
+    content: string;
+    type: TRecordType;
+    domainID: string;
+  };
+};
+
+export type TRazorpaySubscriptionResponse = {
+  subscriptionID: string;
+  orderID: string;
+  razorpayKey: string;
+  planID: string;
+  shortUrl: string;
 };

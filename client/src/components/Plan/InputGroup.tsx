@@ -4,14 +4,21 @@ import { statusVariantClasses } from "@/lib/config";
 import Button from "../common/Button";
 import Loader from "../common/Loader";
 import { validateSubdomain } from "@/lib/utils";
-import { TRecordType, TStatus } from "@/types/types";
+import {
+  TPlanName,
+  TRazorpaySubscriptionResponse,
+  TRecordType,
+  TStatus,
+  TSubscribePayload,
+} from "@/types/types";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "../ui/use-toast";
-import { Textarea } from "../ui/textarea";
 import { useDebounce } from "@/lib/hooks/debounce";
 import { STATUS_TEXTS } from "@/lib/config";
 import { useCheckSubdomainQuery } from "@/api/query/subdomain/query";
 import DashContext from "@/store/dash-context";
+import { useCreateSubscription } from "@/api/mutation/plan/mutation";
+import AuthContext from "@/store/auth-context";
 
 export type TContentType = "hostname" | "IPv4 address";
 
@@ -30,6 +37,8 @@ const InputGroup: React.FC<IInputGroupProps> = ({
 }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const plan = pathname.split("/")[2] as TPlanName;
+  const ctx = useContext(AuthContext);
 
   const [subdomain, setSubdomain] = useState<string>("");
   const debouncedSearch = useDebounce(subdomain, 200);
@@ -52,6 +61,14 @@ const InputGroup: React.FC<IInputGroupProps> = ({
     isError,
   } = useCheckSubdomainQuery(debouncedSearch, defaultDomainId);
 
+  const {
+    mutate: subscribeMutate,
+    data: subscriptionData,
+    isSuccess: isSubscriptionCreated,
+  } = useCreateSubscription(() => {
+    setIsLoading(false);
+  });
+
   const validateInputs = async () => {
     let isInputValid = true;
     setIsInputValid(false);
@@ -61,31 +78,6 @@ const InputGroup: React.FC<IInputGroupProps> = ({
       setSubdomainStatus(STATUS_TEXTS.INVALID);
       isInputValid = false;
     } else {
-      // await fetch(`/api/subdomain?subdomain=${subdomain}`)
-      //   .then((res) => {
-      //     return res.json();
-      //   })
-      //   .then((res) => {
-      //     if (res.isAvailable) {
-      //       setSubdomainStatus({
-      //         text: "Subdomain available",
-      //         variant: "success",
-      //       });
-      //     } else {
-      //       setSubdomainStatus({
-      //         text: "Subdomain not available",
-      //         variant: "error",
-      //       });
-      //       isInputValid = false;
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     setSubdomainStatus({
-      //       text: "Something went wrong",
-      //       variant: "error",
-      //     });
-      //     isInputValid = false;
-      //   });
       if (isError) {
         setSubdomainStatus(STATUS_TEXTS.ERROR);
         isInputValid = false;
@@ -126,50 +118,51 @@ const InputGroup: React.FC<IInputGroupProps> = ({
     }
   }, [debouncedSearch, refetchCheck]);
 
-  const addRecord = async () => {
+  const subscribe = async () => {
     setIsLoading(true);
-    const plan = pathname.split("/")[2];
 
     try {
-      const data = await fetch("/api/records", {
-        method: "POST",
-        body: JSON.stringify({
+      subscribeMutate({
+        plan: {
+          ownerID: ctx.user!.userID,
+          domainID: defaultDomainId,
+          planLabel: subdomain + "." + defaultDomainId,
+          planType: plan,
+        },
+        record: {
           name: subdomain,
           content: content,
           type: recordType,
-          plan: plan,
-          domainId: defaultDomainId, //TODO: Replace with actual domainId
-        }),
+          domainID: defaultDomainId,
+        },
       });
-
-      if (data.status === 201) {
-        toast({
-          title: "Record request submitted!",
-          description:
-            "It will be added to your account once the payment confirmation is received.",
-        });
-
-        const { recordId } = await data.json();
-        router.push(
-          `/payment?plan=${plan}&recordId=${recordId}&name=${subdomain}`
-        );
-      } else {
-        toast({
-          title: "Something went wrong!",
-          description: "Please try again later.",
-          variant: "destructive",
-        });
-      }
-      setIsLoading(false);
     } catch (err) {
       toast({
         title: "Something went wrong!",
         description: "Please try again later.",
         variant: "destructive",
       });
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (!subscriptionData) return;
+
+    const { subscriptionID, orderID, razorpayKey, planID, shortUrl } =
+      subscriptionData?.data as TRazorpaySubscriptionResponse;
+
+    console.log(subscriptionID, orderID, razorpayKey, planID);
+
+    // router.push(
+    //   `/payment?subscriptionID=${subscriptionID}&orderID=${orderID}&razorpayKey=${razorpayKey}&planID=${planID}&plan=${plan}`
+    // );
+
+    // open shortUrl in new tab
+    window.open(shortUrl, "_blank");
+
+    // check if current tab is in focus and if yes, show toast
+  }, [subscriptionData]);
 
   return (
     <div className="flex flex-row items-center gap-6 my-3">
@@ -217,11 +210,11 @@ const InputGroup: React.FC<IInputGroupProps> = ({
       </div>
       <Button
         className={""}
-        onClick={!isInputValid ? validateInputs : addRecord}
+        onClick={!isInputValid ? validateInputs : subscribe}
         disabled={isLoading}
       >
         {isLoading && <Loader className="mr-3" size={14} />}
-        <span className="text-lg">{isInputValid ? "Add" : "Check"}</span>
+        <span className="text-lg">{isInputValid ? "Subscribe" : "Check"}</span>
       </Button>
     </div>
   );
