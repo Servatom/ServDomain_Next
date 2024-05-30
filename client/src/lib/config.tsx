@@ -176,7 +176,8 @@ export const Terms = [
   "Servatom collects your phone number for authentication purposes only. We do not share your phone number with any third party.",
   <span key={3}>
     ServDomain collects your email address for account management and
-    communication purposes only. Your email id is used to create your Stripe
+    communication purposes only.
+    {/* Your email id is used to create your Stripe
     Customer Account for managing subscriptions. You can read Stripe&apos;s
     Privacy Policy{" "}
     <a
@@ -186,7 +187,7 @@ export const Terms = [
       className="text-pink-500 underline underline-offset-4"
     >
       here.
-    </a>{" "}
+    </a>{" "} */}
   </span>,
   "Servatom cares about your privacy and will not share your data with any third party apart from what has been already specified.",
   "It may take 2-3 days to resolve payments and set subdomain status as active. Expiry date is set with respect to date of activation of the record.",

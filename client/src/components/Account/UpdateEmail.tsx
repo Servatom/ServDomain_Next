@@ -51,9 +51,9 @@ const UpdateEmail: React.FC = () => {
     setLoading(false);
   };
   return (
-    <div className="w-full h-[60%] flex items-center justify-center p-4 flex-col">
+    <div className="w-full h-[60%] max-w-2xl mx-auto flex items-center justify-center p-4 flex-col">
       <form
-        className="flex flex-col gap-5 items-start w-[40vw] mb-4 rounded-lg text-gray-300 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-xl bg-opacity-20 p-8"
+        className="flex flex-col gap-5 w-full items-start mb-4 rounded-lg text-gray-300 border-[0.5px] border-gray-900 bg-slate-700 backdrop-blur-xl bg-opacity-20 p-8"
         onSubmit={(e) => {
           handleUpdateEmail(e);
         }}
@@ -83,6 +83,9 @@ const UpdateEmail: React.FC = () => {
       <div className="mt-2 text-center w-full">
         <span className="text-xs text-gray-400 font-normal ">
           Your email is important for all subscription related updates.
+          <br />
+          We will only mail you when it is absolutely necessary. We know its
+          frustrating to see spam in your inbox.
         </span>
       </div>
     </div>

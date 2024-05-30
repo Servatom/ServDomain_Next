@@ -89,9 +89,11 @@ const Account = () => {
     const txtUsed = data.filter((record) => record.type === "TXT").length;
     // get plan wise count from backend
 
-    const txtTotal = data.filter(
-      (record) => record.plan === "vercel" || record.plan === "annual"
-    ).length;
+    // const txtTotal = data.filter(
+    //   (record) => record.plan === "vercel" || record.plan === "annual"
+    // ).length;
+
+    const txtTotal = 0;
 
     setRecordsQty((prev) => {
       return {
@@ -188,7 +190,7 @@ const Account = () => {
           </Link>
         </span>
       )}
-      <div className="flex flex-row justify-between items-start w-full mt-20 px-8">
+      {/* <div className="flex flex-row justify-between items-start w-full mt-20 px-8">
         <p className="flex-grow pr-8">
           Your payments and subscriptions can be managed via Stripe Customer
           Portal. All your payments are processed by Stripe and we do not store
@@ -200,7 +202,7 @@ const Account = () => {
             Manage Subscriptions
           </Button>
         </div>
-      </div>
+      </div> */}
       <div className="mt-16 p-8 w-full grid grid-cols-3 gap-8">
         <Card className="w-full">
           <CardHeader className="flex flex-col justify-between h-full">
