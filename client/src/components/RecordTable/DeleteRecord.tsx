@@ -18,15 +18,12 @@ const DeleteRecord = (record: TRecord) => {
   const [open, setOpen] = useState(false);
   const handleDelete = async () => {
     try {
-      let resp = await fetch(
-        `/api/subscribe?subscriptionId=${record.stripeSubscriptionId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      let resp = await fetch(`/api/subscribe?subscriptionId=${record._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       let data = await resp.json();
       toast({
         title: "Subscription cancelled succesfully!",
