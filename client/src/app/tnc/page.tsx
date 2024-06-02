@@ -16,6 +16,21 @@ export default function TnC() {
         />
         Terms and Conditions
       </h1>
+      <p className="px-14 mb-4">
+        These terms including annexures and links herein, apply to your use of
+        www.domains.servatom.com, any other linked pages, API keys, features,
+        content or application services (including but without limitation to any
+        mobile application, mobile site services) (<strong>“ Website ”</strong>)
+        owned and operated by Servatom LLP (<strong>“ Servatom ”</strong>), a
+        company incorporated under the provisions of the Companies Act, 1956 and
+        having its registered office at J-406, Block J, Purva Fountain Square,
+        Marathahalli, Bangalore Bangalore KA IN 560037.
+        <br />
+        <br />
+        <strong>“We”, “Us”, “Our”</strong> - shall refer to Servatom.{" "}
+        <strong> “You”, “Yours”, “Yourself”</strong> - refers to any
+        non-registered individual or registered user of Servdomain.
+      </p>
       <ol className="list-decimal list-inside sm:px-14 ">
         {Terms.map((term, index) => {
           return (

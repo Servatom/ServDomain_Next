@@ -172,11 +172,12 @@ export const statusVariantClasses = {
 };
 
 export const Terms = [
-  "Servatom is a propietary product of Servatom and is not affiliated with any other company.",
+  "Servdomain is a propietary product of Servatom and is not affiliated with any other company.",
   "Servatom collects your phone number for authentication purposes only. We do not share your phone number with any third party.",
   <span key={3}>
-    ServDomain collects your email address for account management and
-    communication purposes only.
+    Servatom collects your email address for account management and
+    communication purposes only. We do not share your email address with any
+    third party.{" "}
     {/* Your email id is used to create your Stripe
     Customer Account for managing subscriptions. You can read Stripe&apos;s
     Privacy Policy{" "}
@@ -190,8 +191,10 @@ export const Terms = [
     </a>{" "} */}
   </span>,
   "Servatom cares about your privacy and will not share your data with any third party apart from what has been already specified.",
-  "It may take 2-3 days to resolve payments and set subdomain status as active. Expiry date is set with respect to date of activation of the record.",
-  "Subscriptions can be renewed manually in case auto-deduct fails, within 5 days after expiry. The subdomain will remain usable for the buffer of 5 days. Post 5 days, the subdomain will be terminated on failure of renewal of the subscription.",
+  "It may take 2-3 days to resolve payments and deem the subscription and subdomain as usable. Expiry date of the subscription is set with respect to date of activation of the subscription.",
+  "For payments that are late authorized but not captured by Us or our Payment Service Provider, shall initiate auto-refund to the customer within five (5) days.",
+  "All Refunds initiated by Us shall be routed to the same payment method through which the Transaction was processed.",
+  "Subscriptions can be renewed manually in case auto-deduct fails, within 5 days after expiry. The subdomain will remain usable for the buffer of five (5) days. Post five (5) days, the subdomain will be terminated on failure of renewal of the subscription.",
   "Servatom reserves the right to block any subdomain that is required for internal use by the company.",
   "Servatom reserves the right to block any subdomain that is deemed inappropriate by the company.",
   "Servatom reserves the right to monitor the usage of the subdomain and may suspend or terminate the account if the usage is deemed inappropriate by the company.",
@@ -203,7 +206,7 @@ export const Terms = [
 
 export const CancellationTerms = [
   "Cancellation of a subscription is allowed only if the subscription is active.",
-  "Processing of cancellation may take upto 7 days.",
+  "Processing of cancellation may take upto seven (7) days.",
   "Cancellation of a subscription will result in the termination of the subdomain with effect from the date of processing of cancellation.",
   "No refunds will be issued for the remaining period of the subscription.",
   "A terminated subdomain cannot be restored and must be bought again subject to availability.",
