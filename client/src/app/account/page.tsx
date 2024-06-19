@@ -252,22 +252,22 @@ const Account = () => {
         </Card>
       </div>
       <AddTXTRecord open={txtRecordOpen} onOpenChange={setTxtRecordOpen} />
-      <div className="mt-16 w-full">
+
+      {/* <div className="mt-16 w-full">
         <h1 className="text-xl font-medium text-center">Your Records</h1>
-        {/* <RecordsTable allowActions /> */}
         <Suspense>
           <RecordsTable data={data || []} />
         </Suspense>
-      </div>
+      </div> */}
 
-      <div className="mt-16 w-full">
+      <div className="mt-12 mb-8 w-full">
         <h1 className="text-xl font-medium text-center">Your Plans</h1>
         {/* <RecordsTable allowActions /> */}
         <Suspense>
           <PlansTable data={DUMMY_PLANS || []} />
         </Suspense>
       </div>
-      <span className="text-xs pb-8 text-gray-400">
+      <span className="text-xs container mx-auto pb-8 text-gray-400">
         It may take 2-3 days to resolve payments and set subdomain status as
         active. Expiry date is set with respect to date of activation of the
         record. Subscriptions can be renewed manually in case auto-deduct fails,

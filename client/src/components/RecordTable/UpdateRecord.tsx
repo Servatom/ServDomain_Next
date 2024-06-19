@@ -98,7 +98,7 @@ const UpdateRecord = (record: TRecord) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger className="px-4 py-2">Edit</DialogTrigger>
+      <DialogTrigger className="py-2">Edit</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="pb-2">Change Record?</DialogTitle>

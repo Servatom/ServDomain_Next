@@ -53,6 +53,9 @@ export type TRecord = {
   name: string;
   content: string;
   type: TRecordType;
+  ttl: number;
+  proxied: boolean;
+  isActive: boolean;
   created_at: string;
   updated_at: string;
 };

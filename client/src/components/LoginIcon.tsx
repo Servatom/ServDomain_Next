@@ -34,7 +34,7 @@ const LoginIcon = () => {
                 router.push("/account");
               }}
             >
-              Manage Records
+              Manage Subscriptions
             </span>
           ) : (
             <span

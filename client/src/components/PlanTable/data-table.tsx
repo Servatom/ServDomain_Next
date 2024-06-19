@@ -34,7 +34,7 @@ export function DataTable({ data }: { data: TPlan[] }) {
             <AccordionItem
               value={`item-${plan._id}`}
               key={plan._id}
-              className="w-full hover:bg-muted/50 px-4 border-b border-b-muted/70 transition-colors data-[state=open]:border-l-2 data-[state=open]:border-l-muted-foreground data-[state=open]:bg-secondary/40"
+              className="w-full hover:bg-muted/50 px-4 border-b border-b-muted/70 transition-colors data-[state=open]:border-l-4 data-[state=open]:border-l-muted-foreground/50 data-[state=open]:bg-secondary/40"
             >
               <AccordionTrigger className="hover:no-underline">
                 <div className="grid grid-cols-12 text-left w-full">
@@ -50,6 +50,7 @@ export function DataTable({ data }: { data: TPlan[] }) {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="text-base">
+                <hr className="my-2 bg-muted mx-3 h-1" />
                 <RecordsTable
                   data={plan.records || []}
                   paginated={false}
