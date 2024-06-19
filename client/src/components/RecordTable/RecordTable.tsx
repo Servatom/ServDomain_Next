@@ -4,8 +4,13 @@ import { columns } from "./columns";
 import { DataTable } from "./data-table";
 import { TRecord } from "@/types/types";
 import { useGetUserRecords } from "@/api/query/record/query";
+import { cn } from "@/lib/utils";
 
-const RecordsTable: React.FC<{ data: TRecord[] }> = ({ data }) => {
+const RecordsTable: React.FC<{
+  data: TRecord[];
+  paginated?: boolean;
+  classname?: string;
+}> = ({ data, paginated = true, classname }) => {
   const [records, setRecords] = useState<TRecord[]>([]);
 
   useEffect(() => {
@@ -26,8 +31,8 @@ const RecordsTable: React.FC<{ data: TRecord[] }> = ({ data }) => {
     setRecords(records);
   }, [data]);
   return (
-    <div className="container mx-auto py-6">
-      <DataTable columns={columns} data={records} />
+    <div className={cn("container mx-auto py-6", classname)}>
+      <DataTable columns={columns} data={records} paginated={paginated} />
     </div>
   );
 };
