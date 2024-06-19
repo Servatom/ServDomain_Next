@@ -22,6 +22,8 @@ import { Suspense, useContext, useEffect, useState } from "react";
 import { useQueryClient } from "react-query";
 import AddTXTRecord from "@/components/Plan/AddTXTRecord";
 import { TPlanStats } from "@/types/types";
+import PlansTable from "@/components/PlanTable/PlansTable";
+import { DUMMY_PLANS } from "@/lib/constants";
 
 const Account = () => {
   const [hydrated, setHydrated] = useState(false);
@@ -255,6 +257,14 @@ const Account = () => {
         {/* <RecordsTable allowActions /> */}
         <Suspense>
           <RecordsTable data={data || []} />
+        </Suspense>
+      </div>
+
+      <div className="mt-16 w-full">
+        <h1 className="text-xl font-medium text-center">Your Plans</h1>
+        {/* <RecordsTable allowActions /> */}
+        <Suspense>
+          <PlansTable data={DUMMY_PLANS || []} />
         </Suspense>
       </div>
       <span className="text-xs pb-8 text-gray-400">
