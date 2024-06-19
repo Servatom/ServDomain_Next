@@ -1,4 +1,4 @@
-import { TPlan, TPlanName, TRecordType } from "@/types/types";
+import { TPlanConfig, TPlanName, TRecordType } from "@/types/types";
 import { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
 export interface IDynamicInputProps extends HTMLAttributes<HTMLInputElement> {
@@ -16,5 +16,5 @@ export interface ILoaderProps extends HTMLAttributes<HTMLDivElement> {
 export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
 export interface IPricingCardProps {
-  pricing: TPlan;
+  pricing: TPlanConfig;
 }

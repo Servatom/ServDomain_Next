@@ -1,4 +1,9 @@
-import { TPlan, TPlanFrequency, TPlanName, TStatus } from "../types/types";
+import {
+  TPlanConfig,
+  TPlanFrequency,
+  TPlanName,
+  TStatus,
+} from "../types/types";
 
 export const features: {
   [key in TPlanName]: string[];
@@ -54,7 +59,7 @@ export const STATUS_TEXTS: {
   },
 };
 
-export const plans: TPlan[] = [
+export const plans: TPlanConfig[] = [
   {
     id: 1,
     name: "Personal",

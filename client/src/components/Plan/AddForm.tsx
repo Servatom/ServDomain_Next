@@ -3,9 +3,9 @@
 import { validateHostname, validateIPv4, validateTxtRecord } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import InputGroup from "./InputGroup";
-import { TPlan } from "@/types/types";
+import { TPlanConfig } from "@/types/types";
 
-const AddForm: React.FC<{ plan: TPlan }> = ({ plan }) => {
+const AddForm: React.FC<{ plan: TPlanConfig }> = ({ plan }) => {
   return (
     <div className="my-12 mx-auto w-full max-w-5xl flex justify-center items-center">
       <Tabs

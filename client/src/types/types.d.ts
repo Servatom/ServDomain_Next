@@ -15,6 +15,13 @@ export type TPlanName = "personal" | "vercel" | "annual";
 export type TPlanFrequency = "Daily" | "Monthly" | "Yearly";
 export type TRecordType = "CNAME" | "A" | "TXT";
 
+export type TPlanStatus =
+  | "active"
+  | "processing"
+  | "expired"
+  | "cancelled"
+  | "overdue";
+
 export type TNewRecord = {
   name: string;
   content: string;
@@ -27,7 +34,7 @@ export type TStatus = {
   text: string;
 };
 
-export type TPlan = {
+export type TPlanConfig = {
   id: number;
   name: string;
   path: string;
@@ -46,8 +53,8 @@ export type TRecord = {
   name: string;
   content: string;
   type: TRecordType;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 };
 
 export type TDBPlan = {
@@ -58,9 +65,13 @@ export type TDBPlan = {
   planLabel: string;
   hasTxtRecord: boolean;
   status: TPlanStatus;
-  expiry: Date;
+  expiry: string;
   razorpaySubscriptionID: string;
-  created_at: Date;
+  created_at: string;
+};
+
+export type TPlan = TDBPlan & {
+  records: TRecord[];
 };
 
 export type TPlanStats = {
