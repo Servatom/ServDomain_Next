@@ -229,11 +229,23 @@ export const WhyServdomain = [
   <>
     If you have a VM running on cloud, hosting your application and you are done
     accessing it through its IP address. (I mean, you can keep using{" "}
-    <em className="underline underline-offset-4">11.147.208.49/api/hello</em>{" "}
+    <a
+      href="http://13.127.233.100/api/hello"
+      className="cursor-pointer"
+      target="_blank"
+    >
+      <em className="underline underline-offset-4">13.127.233.100/api/hello</em>{" "}
+    </a>
     but{" "}
-    <em className="underline underline-offset-4 text-purple-400">
-      cool-api.servatom.xyz/api/hello
-    </em>{" "}
+    <a
+      href="https://cool-api.servatom.xyz/api/hello"
+      target="_blank"
+      className="cursor-pointer"
+    >
+      <em className="underline underline-offset-4 text-purple-400">
+        cool-api.servatom.xyz/api/hello
+      </em>{" "}
+    </a>
     is so much cooler and easy to remember! 😎)
   </>,
   <>
