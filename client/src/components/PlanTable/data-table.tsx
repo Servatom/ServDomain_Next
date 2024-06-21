@@ -61,6 +61,11 @@ export function DataTable({ data }: { data: TPlan[] }) {
           );
         })}
       </Accordion>
+      {data.length === 0 && (
+        <div className="text-center p-8 text-muted-foreground bg-muted/30">
+          No plans found
+        </div>
+      )}
     </div>
   );
 }
