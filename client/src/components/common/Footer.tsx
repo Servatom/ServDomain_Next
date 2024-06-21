@@ -20,8 +20,8 @@ const Footer: React.FC = () => {
           at affordable prices.
         </p>
         <p className="mt-16 opacity-50 text-base">
-          Address: E-203, RG Residency, <br /> Sector 120, Noida, Uttar Pradesh,
-          India
+          Address: J-406, Purva Fountain Square, <br /> Marathahalli, Bangalore,
+          Karnataka - 560037, India
         </p>
         <p className="opacity-60 text-base">
           Email:

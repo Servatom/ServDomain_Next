@@ -264,7 +264,9 @@ const Account = () => {
         <h1 className="text-xl font-medium text-center">Your Plans</h1>
         {/* <RecordsTable allowActions /> */}
         <Suspense>
-          <PlansTable data={DUMMY_PLANS || []} />
+          <PlansTable
+            data={process.env.NODE_ENV === "development" ? DUMMY_PLANS : []}
+          />
         </Suspense>
       </div>
       <span className="text-xs container mx-auto pb-8 text-gray-400">

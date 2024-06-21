@@ -121,6 +121,17 @@ const InputGroup: React.FC<IInputGroupProps> = ({
   const subscribe = async () => {
     setIsLoading(true);
 
+    if (process.env.NODE_ENV === "production") {
+      toast({
+        title: "Payments disabled!",
+        description:
+          "Work in progress 🚧. Please try again later or write us a mail if you wish to avail a subdomain urgently.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
     try {
       subscribeMutate({
         plan: {
